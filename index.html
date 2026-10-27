@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>باسم فوتبول - Basem Football Pro</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cairo & Changa for dynamic sports typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Changa:wght@600;700;800&display=swap" rel="stylesheet">
@@ -16,15 +14,16 @@
                 extend: {
                     colors: {
                         pitch: {
-                            900: '#06130b',
-                            800: '#0a1d12',
-                            700: '#0e2b1b',
-                            line: '#1e4830'
+                            900: '#040d07',
+                            800: '#091c10',
+                            700: '#0f2c1a',
+                            line: '#184729'
                         },
                         neon: {
                             green: '#10b981',
                             gold: '#fbbf24',
-                            accent: '#22c55e'
+                            accent: '#22c55e',
+                            cyan: '#38bdf8'
                         }
                     },
                     fontFamily: {
@@ -38,88 +37,106 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #06130b;
+            background-color: #040d07;
             color: #f3f4f6;
             -webkit-tap-highlight-color: transparent;
         }
         .pitch-pattern {
-            background-color: #06130b;
-            background-image: radial-gradient(rgba(16, 185, 129, 0.12) 1px, transparent 0);
-            background-size: 24px 24px;
+            background-color: #040d07;
+            background-image: radial-gradient(rgba(16, 185, 129, 0.14) 1px, transparent 0);
+            background-size: 20px 20px;
         }
         .neon-glow-green {
-            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 25px -4px rgba(16, 185, 129, 0.5);
         }
         .neon-glow-gold {
-            box-shadow: 0 0 25px -5px rgba(251, 191, 36, 0.4);
+            box-shadow: 0 0 25px -4px rgba(251, 191, 36, 0.45);
         }
-        /* Hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes radar-pulse {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(0.95); opacity: 0.9; }
         }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.08); opacity: 0.3; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-        .animate-ring {
-            animation: pulse-ring 2.5s infinite ease-in-out;
-        }
+        .animate-radar { animation: radar-pulse 2s infinite ease-in-out; }
     </style>
 </head>
 <body class="pitch-pattern min-h-screen flex flex-col justify-between pb-24 select-none">
 
-    <!-- Top Navigation Header -->
-    <header class="sticky top-0 z-40 bg-pitch-900/90 backdrop-blur-md border-b border-pitch-line px-4 py-3 flex items-center justify-between">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-40 bg-pitch-900/95 backdrop-blur-md border-b border-pitch-line px-4 py-3 flex items-center justify-between shadow-lg">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-neon-green to-emerald-400 flex items-center justify-center font-display font-black text-pitch-900 text-xl shadow-lg neon-glow-green">
                 ⚽
             </div>
             <div>
                 <h1 class="text-lg font-black font-display tracking-wide text-white flex items-center gap-1.5">
-                    باسم فوتبول <span class="text-xs bg-neon-green/20 text-neon-green border border-neon-green/40 px-2 py-0.5 rounded-full font-bold">PRO</span>
+                    باسم فوتبول <span class="text-[11px] bg-neon-gold/20 text-neon-gold border border-neon-gold/40 px-2 py-0.5 rounded-full font-bold">PRO</span>
                 </h1>
-                <p class="text-xs text-gray-400 font-medium">أكاديمية المهارات والمدرب الذكي</p>
+                <p class="text-[11px] text-gray-400 font-medium">أكاديمية التدريب والمهارات الذكية</p>
             </div>
         </div>
 
-        <div class="flex items-center gap-2">
-            <button onclick="openApiKeyModal()" class="flex items-center gap-1 text-xs bg-pitch-800 hover:bg-pitch-700 text-neon-gold border border-neon-gold/30 px-3 py-1.5 rounded-lg transition-all font-semibold">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                <span id="apiKeyBtnText">مفتاح الذكاء</span>
-            </button>
+        <!-- Coach Live Status Badge -->
+        <div class="flex items-center gap-1.5 bg-pitch-800 border border-emerald-500/40 px-3 py-1.5 rounded-full shadow-inner">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-radar"></span>
+            <span class="text-[11px] font-bold text-emerald-300">الكوتش متصل</span>
         </div>
     </header>
 
-    <!-- Main Dynamic Container -->
+    <!-- Main Container -->
     <main class="max-w-md mx-auto w-full px-4 pt-4 flex-1">
 
-        <!-- TAB 1: ACADEMY & SKILLS (أكاديمية المهارات) -->
+        <!-- TAB 1: SKILLS & TACTICAL BOARD (أكاديمية المهارات والرسوم) -->
         <section id="tab-skills" class="space-y-4">
-            <!-- Hero Welcome Card -->
-            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pitch-800 via-pitch-700 to-emerald-950 border border-pitch-line p-5 shadow-2xl">
-                <div class="absolute -right-10 -bottom-10 w-36 h-36 bg-neon-green/10 rounded-full blur-2xl pointer-events-none"></div>
-                <div class="relative z-10">
-                    <span class="inline-block text-xs font-bold text-neon-gold uppercase tracking-wider bg-neon-gold/10 px-2.5 py-1 rounded-md mb-2 border border-neon-gold/20">
-                        مرحباً بالبطل باسم 🌟
+            
+            <!-- Hero Tactical Board Card -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pitch-800 via-pitch-700 to-emerald-950 border border-pitch-line p-4 shadow-2xl">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold text-neon-gold uppercase tracking-wider bg-neon-gold/15 px-2.5 py-1 rounded-md border border-neon-gold/30">
+                        ⭐ مهارة اليوم المقترحة لباسم
                     </span>
-                    <h2 class="text-2xl font-black font-display text-white mb-1">
-                        جاهز تنقل مستواك للعالمية؟
-                    </h2>
-                    <p class="text-xs text-gray-300 leading-relaxed">
-                        تعلّم مراوغات رونالدينيو وتسديدات الدون رونالدو وتمريرات زيدان خطوة بخطوة بالرسم التكتيكي التفاعلي.
-                    </p>
+                    <span class="text-[11px] text-emerald-400 font-bold">تحليل حركي مباشر</span>
                 </div>
+                
+                <h2 class="text-xl font-black font-display text-white mb-2">
+                    سر التمويه وخداع المدافع في جزء من الثانية
+                </h2>
+
+                <!-- Mini Animated Tactical Chalkboard directly on Home -->
+                <div class="rounded-xl overflow-hidden bg-pitch-900/90 border border-pitch-line p-2.5 my-2.5">
+                    <div class="text-[10px] text-gray-400 mb-1 flex items-center justify-between">
+                        <span class="flex items-center gap-1">🟢 مسار حركة جسم باسم</span>
+                        <span class="text-neon-gold flex items-center gap-1">🟡 انطلاق الكرة للمساحة</span>
+                    </div>
+                    <svg viewBox="0 0 320 110" class="w-full h-auto bg-[#072012] rounded-lg border border-pitch-line">
+                        <line x1="160" y1="0" x2="160" y2="110" stroke="#143c22" stroke-width="1.5" stroke-dasharray="4 3"/>
+                        <circle cx="160" cy="55" r="28" fill="none" stroke="#143c22" stroke-width="1.5"/>
+                        <!-- Foot movement -->
+                        <path d="M 60 75 Q 120 40 180 60" fill="none" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 2"/>
+                        <circle cx="60" cy="75" r="5" fill="#10b981"/>
+                        <text x="60" y="93" font-size="9" fill="#10b981" text-anchor="middle" font-weight="bold">البداية</text>
+                        <!-- Fake step -->
+                        <circle cx="180" cy="60" r="6" fill="#ef4444"/>
+                        <text x="180" y="48" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="bold">المدافع اندفع</text>
+                        <!-- Ball explosion cut -->
+                        <path d="M 180 60 L 270 25" fill="none" stroke="#fbbf24" stroke-width="3"/>
+                        <polygon points="270,25 260,28 263,20" fill="#fbbf24"/>
+                        <circle cx="205" cy="50" r="5" fill="#ffffff" stroke="#000"/>
+                        <text x="260" y="42" font-size="9" fill="#fbbf24" text-anchor="middle" font-weight="bold">انفجار بالكرة ⚽</text>
+                    </svg>
+                </div>
+
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    اضغط على أي مهارة بالأسفل لتشاهد شرح خطواتها الميكانيكية وتحدي التمرين الميداني المخصص لك!
+                </p>
             </div>
 
             <!-- Category Filter Tabs -->
             <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
                 <button onclick="filterCategory('all')" class="cat-pill active-pill whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-neon-green text-pitch-900 shadow-md">
-                    الكل (12)
+                    الكل (9)
                 </button>
                 <button onclick="filterCategory('dribble')" class="cat-pill whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-bold transition-all bg-pitch-800 hover:bg-pitch-700 text-gray-300 border border-pitch-line">
                     المراوغات والفرديات
@@ -137,23 +154,23 @@
 
             <!-- Skills List Grid -->
             <div id="skillsContainer" class="space-y-3">
-                <!-- Rendered Dynamically via JS -->
+                <!-- Dynamically Populated -->
             </div>
         </section>
 
-        <!-- TAB 2: GEMINI SMART COACH (المدرب الذكي كوتش باسم) -->
+        <!-- TAB 2: GEMINI SMART COACH (كوتش باسم المباشر) -->
         <section id="tab-coach" class="hidden space-y-4">
-            <div class="rounded-2xl bg-pitch-800/90 border border-pitch-line p-4 shadow-xl">
+            <div class="rounded-2xl bg-pitch-800 border border-pitch-line p-4 shadow-xl">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-neon-green to-emerald-400 p-0.5">
                         <div class="w-full h-full bg-pitch-900 rounded-[14px] flex items-center justify-center text-xl">
-                            🤖
+                            ⚽
                         </div>
                         <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-pitch-900 rounded-full"></span>
                     </div>
                     <div>
-                        <h3 class="font-display font-black text-white text-base">الكوتش جيميني ⚽</h3>
-                        <p class="text-xs text-neon-green font-medium">المدرب الفني والتكتيكي المخصص لباسم</p>
+                        <h3 class="font-display font-black text-white text-base">كوتش باسم الميداني 🏆</h3>
+                        <p class="text-xs text-neon-green font-medium">المدرب الفني والتكتيكي الخاص بك</p>
                     </div>
                 </div>
 
@@ -163,35 +180,34 @@
                     <button onclick="sendQuickPrompt('كيف أتقن حركة الإيلاستيكو زي رونالدينيو بدون ما أفقد توازني؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
                         ⚡ إتقان الإيلاستيكو
                     </button>
-                    <button onclick="sendQuickPrompt('صمم لي جدول تدريب أسبوعي لزيادة سرعتي وتغيير اتجاهي بالكرة')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
-                        🏃‍♂️ جدول زيادة السرعة
+                    <button onclick="sendQuickPrompt('صمم لي جدول تدريب لزيادة سرعتي وتغيير اتجاهي بالكرة')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
+                        🏃‍♂️ زيادة السرعة والانفجار
                     </button>
                     <button onclick="sendQuickPrompt('كيف أسدد ركلات حرة متموجة بأسلوب الناكل بول (Knuckleball)؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
                         🎯 تسديد الناكل بول
                     </button>
-                    <button onclick="sendQuickPrompt('ما هو أفضل نظام غذائي وراحة للاعب كرة قدم قبل المباراة بساعات؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
-                        🥗 وجبة ما قبل المباراة
+                    <button onclick="sendQuickPrompt('كيف أتجاوز المدافع السريع والقوي بدنياً؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
+                        🛡️ كسر المدافع الصلب
                     </button>
                 </div>
             </div>
 
             <!-- Chat Window -->
-            <div id="chatMessages" class="rounded-2xl bg-pitch-900/80 border border-pitch-line p-3 h-[380px] overflow-y-auto space-y-3 text-sm">
-                <!-- Welcome Coach Msg -->
+            <div id="chatMessages" class="rounded-2xl bg-pitch-900/90 border border-pitch-line p-3 h-[380px] overflow-y-auto space-y-3 text-sm shadow-inner">
                 <div class="flex items-start gap-2.5">
                     <div class="w-8 h-8 rounded-lg bg-neon-green/20 text-neon-green flex-shrink-0 flex items-center justify-center font-bold text-xs">
                         كوتش
                     </div>
                     <div class="bg-pitch-800 text-gray-200 rounded-2xl rounded-tr-none p-3 max-w-[85%] border border-pitch-line text-xs leading-relaxed">
-                        أهلاً يا كابتن باسم! أنا كوتشك الخاص لتحليل وتطوير أدائك في الملعب. اسألني عن أي حركة، خطة تكتيكية، تمرين لتقوية الركل، أو حتى كيفية تجاوز المدافعين بذكاء وسرعة! ⚽🔥
+                        أهلاً يا كابتن باسم! أنا كوتشك الميداني المباشر. اسألني عن أي حركة، تكتيك لتجاوز المدافعين، أو طريقة تسديد متقنة لتمزق الشباك اليوم! ⚽🔥
                     </div>
                 </div>
             </div>
 
             <!-- Chat Input -->
             <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center gap-2">
-                <input id="chatInput" type="text" placeholder="اسأل الكوتش جيميني أي سؤال كروي..." class="w-full bg-pitch-800 border border-pitch-line rounded-xl px-4 py-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-neon-green transition-all" required>
-                <button type="submit" id="sendBtn" class="bg-gradient-to-r from-neon-green to-emerald-500 text-pitch-900 font-bold px-4 py-3 rounded-xl flex items-center justify-center hover:opacity-95 transition-all">
+                <input id="chatInput" type="text" placeholder="اسأل الكوتش عن أي حركة أو مهارة كروية..." class="w-full bg-pitch-800 border border-pitch-line rounded-xl px-4 py-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-neon-green transition-all" required>
+                <button type="submit" id="sendBtn" class="bg-gradient-to-r from-neon-green to-emerald-500 text-pitch-900 font-bold px-4 py-3 rounded-xl flex items-center justify-center hover:opacity-95 transition-all shadow-md">
                     <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </button>
             </form>
@@ -199,10 +215,10 @@
 
         <!-- TAB 3: DRILLS & TIMER (تمارين باسم الميدانية) -->
         <section id="tab-drills" class="hidden space-y-4">
-            <!-- Interactive Stopwatch / Timer Card -->
+            <!-- Timer -->
             <div class="rounded-2xl bg-gradient-to-b from-pitch-800 to-pitch-900 border border-pitch-line p-5 text-center shadow-xl">
                 <span class="text-xs font-bold text-neon-green tracking-wider uppercase">مؤقت تمارين اللياقة والمهارة</span>
-                <div id="timerDisplay" class="font-display font-black text-5xl my-3 text-white tracking-widest text-shadow">
+                <div id="timerDisplay" class="font-display font-black text-5xl my-3 text-white tracking-widest">
                     01:00
                 </div>
 
@@ -223,7 +239,7 @@
                 </div>
             </div>
 
-            <!-- Daily Training Checklist for Basem -->
+            <!-- Daily Training Checklist -->
             <div class="rounded-2xl bg-pitch-800/80 border border-pitch-line p-4">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="font-bold text-white text-sm flex items-center gap-1.5">
@@ -235,7 +251,7 @@
                 </div>
 
                 <div id="drillsChecklist" class="space-y-2.5">
-                    <!-- Dynamic Checklist items -->
+                    <!-- Dynamic -->
                 </div>
 
                 <button onclick="resetDailyDrills()" class="w-full mt-3 text-center text-xs text-gray-400 hover:text-white py-1 transition-all">
@@ -244,48 +260,61 @@
             </div>
         </section>
 
-        <!-- TAB 4: PROFILE & GITHUB GUIDE (بروفايل باسم وطريقة الرفع) -->
+        <!-- TAB 4: BASEM PRO CARD (بطاقة النجم باسم) -->
         <section id="tab-profile" class="hidden space-y-4">
-            <div class="rounded-2xl bg-pitch-800 border border-pitch-line p-5 text-center">
-                <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-neon-green via-emerald-500 to-neon-gold mx-auto p-1 mb-3">
-                    <div class="w-full h-full bg-pitch-900 rounded-full flex items-center justify-center text-3xl">
+            <!-- Ultimate FIFA-Style Player Card -->
+            <div class="relative rounded-3xl bg-gradient-to-b from-amber-500/20 via-pitch-800 to-pitch-900 border-2 border-neon-gold/50 p-6 text-center shadow-2xl overflow-hidden neon-glow-gold">
+                <div class="absolute -right-8 -top-8 w-32 h-32 bg-neon-gold/15 rounded-full blur-2xl"></div>
+                
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-neon-gold via-emerald-400 to-neon-green mx-auto p-1 mb-3 shadow-xl">
+                    <div class="w-full h-full bg-pitch-900 rounded-full flex items-center justify-center text-4xl">
                         ⚽
                     </div>
                 </div>
-                <h3 class="font-display font-black text-xl text-white">الكابتن باسم</h3>
-                <p class="text-xs text-neon-green font-semibold">نجم قادم في عالم كرة القدم 🚀</p>
-                <div class="mt-4 grid grid-cols-3 gap-2 border-t border-pitch-line pt-4 text-center">
+
+                <div class="inline-block bg-neon-gold text-pitch-900 text-[11px] font-black px-3 py-0.5 rounded-full mb-1">
+                    بطاقة اللاعب المحترف PRO
+                </div>
+                <h3 class="font-display font-black text-2xl text-white">الكابتن باسم</h3>
+                <p class="text-xs text-emerald-400 font-semibold mb-4">صانع ألعاب ومهاجم حاسم 🚀</p>
+
+                <!-- Detailed Player Attributes Grid -->
+                <div class="grid grid-cols-3 gap-2 bg-pitch-900/80 rounded-2xl p-3 border border-pitch-line mb-4 text-center">
                     <div>
-                        <div id="statsMasteredCount" class="font-display font-black text-neon-gold text-lg">0</div>
-                        <div class="text-[10px] text-gray-400">مهارات متقنة</div>
+                        <div class="text-[10px] text-gray-400">السرعة</div>
+                        <div class="font-display font-black text-neon-green text-base">92</div>
                     </div>
                     <div>
-                        <div id="statsDrillsCount" class="font-display font-black text-neon-green text-lg">0</div>
-                        <div class="text-[10px] text-gray-400">تدريبات منجزة</div>
+                        <div class="text-[10px] text-gray-400">المراوغة</div>
+                        <div class="font-display font-black text-neon-gold text-base">94</div>
                     </div>
                     <div>
-                        <div class="font-display font-black text-blue-400 text-lg">PRO</div>
-                        <div class="text-[10px] text-gray-400">المستوى الحالي</div>
+                        <div class="text-[10px] text-gray-400">التسديد</div>
+                        <div class="font-display font-black text-neon-cyan text-base">89</div>
+                    </div>
+                </div>
+
+                <!-- Live Tracked Stats -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-pitch-800/90 rounded-xl p-3 border border-pitch-line">
+                        <div id="statsMasteredCount" class="font-display font-black text-neon-gold text-2xl">0</div>
+                        <div class="text-[11px] text-gray-300 font-semibold mt-0.5">مهارات متقنة 🏆</div>
+                    </div>
+                    <div class="bg-pitch-800/90 rounded-xl p-3 border border-pitch-line">
+                        <div id="statsDrillsCount" class="font-display font-black text-neon-green text-2xl">0</div>
+                        <div class="text-[11px] text-gray-300 font-semibold mt-0.5">تحديات منجزة ⚡</div>
                     </div>
                 </div>
             </div>
 
-            <!-- GitHub & Kali Linux Deployment Quick Card -->
-            <div class="rounded-2xl bg-pitch-900 border border-pitch-line p-4">
-                <h4 class="font-bold text-white text-xs flex items-center gap-2 mb-2 text-neon-gold">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    تشغيل التطبيق على متصفح هاتف باسم عبر GitHub
+            <!-- Motivational Champion Quote Card -->
+            <div class="rounded-2xl bg-pitch-800 border border-pitch-line p-4">
+                <h4 class="font-bold text-white text-xs flex items-center gap-2 mb-1.5 text-neon-gold">
+                    <span>🔥</span> رسالة الكوتش اليومية لك:
                 </h4>
-                <p class="text-[11px] text-gray-300 leading-relaxed mb-3">
-                    يمكن لباسم فتح هذا التطبيق كأنه تطبيق موبايل حقيقي وسريع ومجاني عبر <strong>GitHub Pages</strong>. تم تجهيز أوامر الرفع المباشرة من الكالي لينكس في الشرح أدناه!
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    "الموهبة بتفتح لك الباب، بس التكرار والإصرار بالملعب هو اللي بصنع الأساطير. التزم بتمرينك اليوم وخلّي ثقتك بنفسك تهز الشباك!"
                 </p>
-                <div class="bg-black/60 p-3 rounded-xl border border-pitch-line font-mono text-[10px] text-green-400 overflow-x-auto space-y-1">
-                    <div>git init</div>
-                    <div>git add .</div>
-                    <div>git commit -m "Launch Basem Football Pro"</div>
-                    <div>git branch -M main</div>
-                    <div>git push -u origin main</div>
-                </div>
             </div>
         </section>
     </main>
@@ -293,41 +322,33 @@
     <!-- SKILL DETAILS & TACTICAL BOARD MODAL -->
     <div id="skillModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-3">
         <div class="bg-pitch-800 border border-pitch-line w-full max-w-md rounded-2xl max-h-[90vh] overflow-y-auto no-scrollbar p-5 relative shadow-2xl">
-            <!-- Close Button -->
-            <button onclick="closeSkillModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-pitch-700 text-gray-300 flex items-center justify-center hover:bg-pitch-600 transition-all">
+            <button onclick="closeSkillModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-pitch-700 text-gray-300 flex items-center justify-center hover:bg-pitch-600 transition-all font-bold">
                 ✕
             </button>
 
-            <!-- Modal Header -->
-            <div id="modalSkillHeader" class="mb-4">
-                <!-- Rendered Dynamically -->
-            </div>
+            <div id="modalSkillHeader" class="mb-4"></div>
 
-            <!-- Pitch Visualization (Interactive Visual Chalkboard SVG) -->
+            <!-- Pitch Visualization -->
             <div class="rounded-xl overflow-hidden bg-pitch-900 border border-pitch-line mb-4 relative p-3">
                 <div class="text-[10px] font-bold text-gray-400 mb-2 flex items-center justify-between">
-                    <span>رسم الملعب التكتيكي لحركة القدم والكرة:</span>
-                    <span id="animationStateText" class="text-neon-green">مسار الحركة المباشر</span>
+                    <span>الرسم التكتيكي التفاعلي للقدم والكرة:</span>
+                    <span class="text-neon-green">المسار الدقيق</span>
                 </div>
-                <div id="tacticalBoardContainer" class="w-full flex justify-center items-center py-2">
-                    <!-- Dynamic SVG Field Animation -->
-                </div>
+                <div id="tacticalBoardContainer" class="w-full flex justify-center items-center py-2"></div>
             </div>
 
             <!-- Steps Breakdown -->
             <div class="space-y-3 mb-4">
                 <h4 class="font-display font-bold text-sm text-neon-gold flex items-center gap-1.5">
-                    <span>🎯</span> خطوات تنفيذ الحركة بدقة
+                    <span>🎯</span> خطوات تطبيق المهارة بالملعب:
                 </h4>
-                <div id="modalSkillSteps" class="space-y-2 text-xs">
-                    <!-- Dynamic Steps -->
-                </div>
+                <div id="modalSkillSteps" class="space-y-2 text-xs"></div>
             </div>
 
             <!-- Secret Pro Tip -->
             <div class="bg-pitch-700/50 border border-neon-green/30 rounded-xl p-3 mb-4">
                 <div class="text-xs font-bold text-neon-green flex items-center gap-1.5 mb-1">
-                    <span>💡</span> سر الحركة من نجوم العالم
+                    <span>💡</span> السر التكتيكي للحركة:
                 </div>
                 <p id="modalSkillProTip" class="text-xs text-gray-300 leading-relaxed"></p>
             </div>
@@ -335,36 +356,14 @@
             <!-- Practical Drill Challenge -->
             <div class="bg-pitch-900 border border-pitch-line rounded-xl p-3 mb-5">
                 <div class="text-xs font-bold text-white flex items-center gap-1.5 mb-1">
-                    <span>⚡</span> تحدي باسم في التمرين القادم
+                    <span>⚡</span> تحدي باسم في التمرين القادم:
                 </div>
                 <p id="modalSkillDrill" class="text-xs text-gray-400"></p>
             </div>
 
-            <!-- Action Button -->
             <button id="toggleMasteryBtn" onclick="toggleSkillMastery()" class="w-full bg-neon-green hover:bg-emerald-400 text-pitch-900 font-display font-black py-3 rounded-xl text-xs transition-all shadow-md">
-                تعليم الحركة كـ "تم الإتقان" 🏆
+                تعليم الحركة كـ "تم الإتقان لباسم" 🏆
             </button>
-        </div>
-    </div>
-
-    <!-- API KEY CONFIG MODAL -->
-    <div id="apiKeyModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-pitch-800 border border-pitch-line w-full max-w-sm rounded-2xl p-5 shadow-2xl relative">
-            <h3 class="font-display font-black text-lg text-white mb-2 flex items-center gap-2">
-                <span>🔑</span> مفتاح ذكاء الكوتش (Gemini API)
-            </h3>
-            <p class="text-xs text-gray-300 leading-relaxed mb-4">
-                يستخدم التطبيق نموذج <strong>Gemini 2.5 Flash</strong> الذكي والسريع جداً لتقديم توجيهات كروية مخصصة لباسم. يمكنك إدخال مفتاحك المجاني أو تركه فارغاً للاعتماد على التحليل المحلي التلقائي.
-            </p>
-            <input id="apiKeyInput" type="password" placeholder="AIzaSy..." class="w-full bg-pitch-900 border border-pitch-line rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-gray-500 mb-4 focus:outline-none focus:border-neon-green">
-            <div class="flex items-center gap-2">
-                <button onclick="saveApiKey()" class="flex-1 bg-neon-green text-pitch-900 font-bold py-2.5 rounded-xl text-xs transition-all hover:bg-emerald-400">
-                    حفظ المفتاح
-                </button>
-                <button onclick="closeApiKeyModal()" class="px-4 py-2.5 rounded-xl bg-pitch-700 text-gray-300 text-xs hover:bg-pitch-600 transition-all">
-                    إلغاء
-                </button>
-            </div>
         </div>
     </div>
 
@@ -374,7 +373,7 @@
         <span id="toastMsg">تمت العملية بنجاح</span>
     </div>
 
-    <!-- Bottom Navigation Dock for Mobile Devices -->
+    <!-- Bottom Navigation Bar -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 bg-pitch-900/95 backdrop-blur-lg border-t border-pitch-line px-2 py-2">
         <div class="max-w-md mx-auto grid grid-cols-4 gap-1 text-center">
             <button onclick="switchTab('skills')" id="nav-skills" class="nav-btn active-nav flex flex-col items-center justify-center py-1.5 rounded-xl text-neon-green transition-all">
@@ -383,7 +382,7 @@
             </button>
             <button onclick="switchTab('coach')" id="nav-coach" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
                 <span class="text-lg">🤖</span>
-                <span class="text-[10px] font-bold mt-0.5">كوتش جيميني</span>
+                <span class="text-[10px] font-bold mt-0.5">كوتش باسم</span>
             </button>
             <button onclick="switchTab('drills')" id="nav-drills" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
                 <span class="text-lg">⏱️</span>
@@ -391,47 +390,46 @@
             </button>
             <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
                 <span class="text-lg">👤</span>
-                <span class="text-[10px] font-bold mt-0.5">بروفايل باسم</span>
+                <span class="text-[10px] font-bold mt-0.5">بطاقة باسم</span>
             </button>
         </div>
     </nav>
 
-    <!-- Application Logic -->
+    <!-- App Logic -->
     <script>
-        // Skills Database
         const SKILLS_DATA = [
             {
                 id: 'elastico',
                 category: 'dribble',
-                name: 'الإيلاستيكو الساحر (Elastico / Flip-Flap)',
+                name: 'الإيلاستيكو الساحر (Elastico)',
                 star: 'رونالدينيو / نيمار',
                 level: 'محترف',
                 badgeColor: 'text-purple-400 border-purple-500/30 bg-purple-500/10',
-                desc: 'المراوغة الأكثر فتكاً لإفقاد المدافع توازنه خلال جزء من الثانية بدفع الكرة للخارج ثم إعادتها للداخل بلمسة خاطفة.',
+                desc: 'دفع الكرة للخارج بوجه القدم الخارجي ثم خطفها للداخل ببطن القدم بحركة واحدة سريعة تخدع المدافع.',
                 steps: [
-                    'قرب الكرة من وجه قدمك الخارجي (الأصابع الصغيرة) بحركة اندفاع توهم المدافع بأنك ذاهب للطرف.',
-                    'اكسر مسار الكرة في نفس اللمسة أو مباشرة ببطن قدمك (مقدمة باطن القدم) للداخل بسرعة فائقة.',
-                    'انفجر بالسرعة في المساحة التي فتحها المدافع بعد أن تحرك في الاتجاه الخاطئ.'
+                    'قرب الكرة من وجه قدمك الخارجي بحركة اندفاع توهم المدافع بأنك ذاهب للطرف.',
+                    'اكسر مسار الكرة في نفس اللحظة ببطن قدمك للداخل بسرعة خاطفة.',
+                    'انفجر بالسرعة في المساحة الشاغرة فور فقدان المدافع لتوازنه.'
                 ],
-                proTip: 'السر في مرونة الكاحل وسرعة النقل؛ لا تجعل الحركة على خطوتين منفصلتين بل حركة متموجة واحدة أشبه بالمطاط.',
-                drill: 'كرر الحركة 30 مرة بقدمك القوية و20 مرة بالقدم الأضعف على خط مستقيم بين قمعين.',
+                proTip: 'السر في مرونة الكاحل؛ لا تجعل الحركة على خطوتين، بل تمويجة واحدة مطاطية وسلسة.',
+                drill: 'كرر الحركة 30 مرة بقدمك القوية و20 مرة بالقدم الأضعف على خط مستقيم.',
                 svgType: 'elastico'
             },
             {
                 id: 'stepover',
                 category: 'dribble',
-                name: 'الخطوة المزدوجة والمقصية (Step-over)',
+                name: 'الخطوة المقصية المزدوجة (Step-over)',
                 star: 'كريستيانو رونالدو / الظاهرة R9',
                 level: 'متوسط',
                 badgeColor: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
-                desc: 'لف القدم حول الكرة دون لمسها لتمويه المدافع وتثبيت أقدامه في الأرض ثم الانطلاق المعاكس.',
+                desc: 'لف القدم حول الكرة بدون لمسها لتمويه المدافع ونقل وزنه في الاتجاه المعاكس ثم الانطلاق.',
                 steps: [
-                    'اقترب من المدافع بسرعة متوسطة واحتفظ بمسافة خطوة ونصف بينك وبينه.',
-                    'لف قدمك من الداخل إلى الخارج فوق الكرة بحركة دائرية سريعة مع ثني ركبتك وميل كتفك.',
-                    'ادفع الكرة بالقدم المعاكسة فور هبوط القدم الأولى على الأرض وانفجر في المساحة.'
+                    'اقترب من المدافع بسرعة متوسطة بمسافة خطوة ونصف.',
+                    'لف قدمك من الداخل للخارج فوق الكرة بحركة دائرية مع إسقاط كتفك.',
+                    'ادفع الكرة بالقدم المعاكسة فور هبوط القدم الأولى على الأرض.'
                 ],
-                proTip: 'المدافع لا يراقب قدميك فقط بل يراقب كتفيك؛ اخفض كتفك في اتجاه التمويه ليصدق المدافع انتقال وزنك.',
-                drill: 'ضع 4 أقماع على بعد مترين، وقم بعمل حركة Step-Over يميناً وشمالاً عند كل قمع 5 مجموعات.',
+                proTip: 'المدافع يراقب كتفك وجذعك؛ اخفض كتفك في اتجاه الحركة الوهمية ليصدق الخدعة.',
+                drill: 'ضع 4 أقماع على بعد مترين، ونفذ حركة المقص يميناً وشمالاً 5 مجموعات.',
                 svgType: 'stepover'
             },
             {
@@ -441,48 +439,48 @@
                 star: 'زين الدين زيدان',
                 level: 'محترف',
                 badgeColor: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
-                desc: 'استخدام باطن أسفل الحذاء لدحرجة الكرة وحماية مسارها بظهرك في دوران كامل يخرجك من حصار لاعبين.',
+                desc: 'استخدام أسفل الحذاء لدحرجة الكرة وتغطيتها بجسمك في دوران كامل للخروج من حصار مدافعين.',
                 steps: [
-                    'عند اقتراب المدافع لقطع الكرة، ضع أسفل قدمك الأولى (Sole) على الكرة واسحبها نحوك قليلاً.',
-                    'اقفز والتف بنصف دورة بحيث يصبح ظهرك للمدافع ليحميك جسدك من التدخل.',
-                    'اسحب الكرة بأسفل قدمك الثانية في الاتجاه المعاكس لتكمل الدوران 360 درجة وتتجاوزه.'
+                    'ضع أسفل قدمك الأولى على الكرة واسحبها نحوك قليلاً.',
+                    'اقفز والتف بنصف دورة بحيث يصبح ظهرك للمدافع ليحميك جسدك.',
+                    'اسحب الكرة بأسفل قدمك الثانية في الاتجاه المقابل وأكمل الدوران 360 درجة.'
                 ],
-                proTip: 'التوقيت هو الحاسم؛ نفذ الحركة قبل اصطدام المدافع بك بخطوة واحدة واجعل دورانك سريعاً ومحكماً.',
-                drill: 'تدرب على الدوران حول قمع ثابت 20 مرة في اتجاه عقارب الساعة و20 مرة عكسها.',
+                proTip: 'التوقيت هو الحاسم؛ نفذ الحركة قبل وصول المدافع بخطوة واجعل دورانك سريعاً.',
+                drill: 'تدرب على الدوران حول قمع ثابت 20 مرة مع عقارب الساعة و20 مرة عكسها.',
                 svgType: 'roulette'
             },
             {
                 id: 'body-feint',
                 category: 'dribble',
-                name: 'التمويه بالجسد الخاطف (Body Feint)',
+                name: 'التمويه بالجسد والكتف (Body Feint)',
                 star: 'ليونيل ميسي',
-                level: 'مبتدئ إلى متقدم',
+                level: 'أساسي إلى متقدم',
                 badgeColor: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-                desc: 'أبسط وأخطر حركة في تاريخ كرة القدم، تعتمد على إسقاط الكتف ونقل وزن الجسد دون لمس الكرة مطلقاً.',
+                desc: 'إسقاط الكتف ونقل وزن الجسد بدون لمس الكرة مطلقاً لفتح زاوية انطلاق سالكة.',
                 steps: [
-                    'انطلق بالكرة تجاه المدافع بسرعة مدروسة مع إبقاء رأسك مرفوعاً جزئياً.',
-                    'اخطُ بقدمك خطوة واسعة في اتجاه وهمي واخفض كتفك وركبتك كأنك ستنطلق بتلك الجهة.',
-                    'في اللحظة التي يتراجع فيها المدافع، ادفع الكرة بالجهة المقابلة بخارج قدمك الأخرى.'
+                    'انطلق بالكرة تجاه المدافع بسرعة مدروسة مع رفع رأسك جزئياً.',
+                    'اخطُ بقدمك خطوة واسعة في اتجاه وهمي واخفض كتفك كأنك ستنطلق هناك.',
+                    'في اللحظة التي يميل فيها المدافع، ادفع الكرة بالجهة المقابلة بخارج قدمك الأخرى.'
                 ],
-                proTip: 'ميسي يتقنها لأنه يجعل المسافة قريبة جداً من المدافع مما يجبره على الاندفاع السريع.',
-                drill: 'قم بمحاكاة التمويه بالجسد بسرعة عالية 40 مرة مع تبديل الاتجاه.',
+                proTip: 'اقترب مسافة متر واحد فقط من المدافع لتجبره على الاندفاع السريع خلف حركتك الوهمية.',
+                drill: 'محاكاة التمويه بالجسد بسرعة عالية 40 مرة مع تبديل الاتجاه.',
                 svgType: 'feint'
             },
             {
                 id: 'knuckleball',
                 category: 'shooting',
-                name: 'تسديدة الناكل بول المتموجة (Knuckleball)',
-                star: 'كريستيانو رونالدو / بيل',
+                name: 'تسديدة الناكل بول (Knuckleball)',
+                star: 'كريستيانو رونالدو',
                 level: 'أسطوري',
                 badgeColor: 'text-red-400 border-red-500/30 bg-red-500/10',
-                desc: 'ضربة قوية مستقيمة تجعل الكرة تطير في الهواء بدون دوران (Zero Spin) مما يجعلها تغير مسارها فجأة في وجه الحارس.',
+                desc: 'ركل الكرة بعظمة مشط القدم بقوة تجعلها تطير بدون دوران لتهتز في الهواء وتفاجئ الحارس.',
                 steps: [
-                    'اقترب من الكرة في خط مستقيم أو بزاوية ضيقة (3 إلى 4 خطوات للخلف).',
-                    'اضرب الكرة بعظمة مشط القدم الصلبة (Instep Bone) تماماً في نقطة المنتصف أو أسفل المنتصف بميليمتمرات.',
-                    'أوقف حركة متابعة قدمك فوراً (Follow-through قصيرة ومقطوعة) حتى لا تدور الكرة.'
+                    'اقترب من الكرة بزاوية ضيقة (3 إلى 4 خطوات للخلف).',
+                    'اضرب الكرة بعظمة مشط القدم الصلبة تماماً في نقطة المنتصف.',
+                    'أوقف حركة متابعة قدمك فوراً لتظل الكرة بدون دوران وتهتز في الهواء.'
                 ],
-                proTip: 'احرص على ثبات كاحل قدمك 100%؛ أي ارتخاء سيجعل الكرة تدور وتفقد التأثير المتموج.',
-                drill: 'تسديد 25 ركلة حرة ثابتة من مسافة 22 إلى 26 متراً والتركيز على ثبات دوران الكرة في الجو.',
+                proTip: 'ثبّت كاحلك بقوة حديدية؛ أي ارتخاء سيجعل الكرة تدور وتفقد ارتعاشها التموجي.',
+                drill: 'تسديد 25 ركلة حرة ثابتة من مسافة 22 متراً والتركيز على ثبات دوران الكرة.',
                 svgType: 'shot'
             },
             {
@@ -492,88 +490,85 @@
                 star: 'ريكاردو كواريسما / مودريتش',
                 level: 'محترف',
                 badgeColor: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10',
-                desc: 'ركل الكرة بالوجه الخارجي للقدم لتعطي لولبة وتقوساً سحرياً يلتف حول المدافعين نحو الشباك أو الزميل.',
+                desc: 'ركل الكرة بالوجه الخارجي للقدم لتلتف بقوس ساحر ومفاجئ نحو زوايا الشباك.',
                 steps: [
                     'قف بزاوية تجعل الكرة على جانب قدمك المفضل.',
-                    'اضرب الكرة بالجزء الخارجي للقدم (من الأصبع الصغير حتى منتصف الحذاء الخارجي) مع لف الكاحل للأعلى.',
-                    'دع قدمك تتابع الحركة إلى الأعلى وفي اتجاه الخارج لتوليد أقصى قدر من الدوران (Side Spin).'
+                    'اضرب الكرة بالجزء الخارجي للقدم مع لف الكاحل للأعلى.',
+                    'دع قدمك تتابع الحركة للأعلى لتوليد دوران التفافي قوي للكرة.'
                 ],
-                proTip: 'انحنِ بجذعك قليلاً فوق الكرة لمنعها من الارتفاع الزائد فوق العارضة.',
-                drill: 'إرسال 20 كرة عرضية و15 تسديدة من طرف منطقة الجزاء باستخدام الوجه الخارجي فقط.',
+                proTip: 'انحنِ بجذعك للأمام قليلاً فوق الكرة لمنعها من الارتفاع الزائد فوق العارضة.',
+                drill: 'تسديد 20 كرة مقوسة من أطراف منطقة الجزاء باستخدام الوجه الخارجي فقط.',
                 svgType: 'trivela'
             },
             {
                 id: 'dead-first-touch',
                 category: 'control',
-                name: 'اللمسة الأولى الميتة للكرة (Cushion First Touch)',
-                star: 'بيركامب / برباتوف / محرز',
-                level: 'أساسي لكل لاعب',
+                name: 'اللمسة الأولى الميتة (Cushion Touch)',
+                star: 'رياض محرز / برباتوف',
+                level: 'أساسي لكل بطل',
                 badgeColor: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
-                desc: 'امتصاص طاقة الكرات العالية أو السريعة لتستقر تحت قدميك فوراً وكأنها هبطت على وسادة.',
+                desc: 'امتصاص قوة الكرات العالية أو القوية لتستقر فوراً تحت حذائك كالوسادة وتجهز لانطلاقتك.',
                 steps: [
-                    'راقب مسار الكرة في الهواء وعينك عليها حتى لحظة الوصول.',
-                    'ارفع قدمك لاستقبال الكرة، وقبل أن تلامس حذاءك بنصف ثانية اسحب قدمك قليلاً للأسفل والخلف.',
-                    'استخدم باطن القدم أو وجه الحذاء لامتصاص الزخم وتثبيت الكرة أمام خطوتك التالية مباشرة.'
+                    'راقب مسار الكرة في الهواء وركّز نظرك عليها حتى لحظة الوصول.',
+                    'ارفع قدمك، وقبل ملامسة الكرة بنصف ثانية اسحب قدمك قليلاً للأسفل والخلف.',
+                    'استخدم باطن القدم لامتصاص السرعة وتثبيت الكرة أمام خطوتك التالية مباشرة.'
                 ],
-                proTip: 'لا تركل الكرة لاستقبالها! تخيل أنك تلتقط بيضة دون أن تنكسر.',
-                drill: 'اركل الكرة بقوة في حائط صلب واستقبلها باللمسة الأولى لتقف على بُعد أقل من 30 سم عنك (50 تكرار).',
+                proTip: 'لا تركل الكرة لاستقبالها؛ تخيل أنك تلتقط بيضة دون أن تنكسر.',
+                drill: 'ركل الكرة في حائط صلب واستقبالها باللمسة الأولى لتقف على بعد أقل من 30 سم (40 تكرار).',
                 svgType: 'control'
             },
             {
                 id: 'tiki-taka-pass',
                 category: 'control',
-                name: 'تمريرة اللمسة الواحدة السريعة (One-Touch Passing)',
-                star: 'إنييستا / تشافي / بيدري',
+                name: 'تمريرة اللمسة الواحدة (One-Touch Pass)',
+                star: 'إنييستا / تشافي',
                 level: 'متوسط',
                 badgeColor: 'text-teal-400 border-teal-500/30 bg-teal-500/10',
-                desc: 'تمرير الكرة بلمسة واحدة محسوبة قبل وصول الضغط لكسر خطوط الخصم وسرعة تدوير اللعب.',
+                desc: 'تمرير الكرة بلمسة واحدة محسوبة لكسر خطوط الخصم وسرعة تدوير اللعب قبل وصول الضغط.',
                 steps: [
-                    'امسح الملعب بنظرك (Scan) قبل وصول الكرة إليك لتعرف خيارك المتاح مسبقاً.',
+                    'امسح الملعب بنظرك قبل وصول الكرة إليك لتعرف خيار التمرير مسبقاً.',
                     'ثبت قدم الارتكاز بجانب مسار الكرة واجعل كاحل قدم التمرير صلباً وموجهاً للهدف.',
                     'اضرب مركز الكرة بمنتصف باطن القدم مع توجيه جسدك بالكامل نحو الزميل.'
                 ],
                 proTip: 'القرار يُتخذ في عقلك قبل أن تلمس الكرة قدمك بثانية كاملة.',
-                drill: 'تمرير متواصل مع حائط أو زميل من لمسة واحدة فقط بقدمك اليمنى ثم اليسرى (60 تمريرة متتالية).',
+                drill: 'تمرير متواصل مع حائط أو زميل من لمسة واحدة متتالية بالقدمين (50 تمريرة).',
                 svgType: 'pass'
             },
             {
                 id: 'ladder-agility',
                 category: 'fitness',
-                name: 'خفة الأقدام وسرعة تغيير الاتجاه (Agility & Footwork)',
-                star: 'مبابي / دافيدز',
+                name: 'خفة الأقدام والانطلاق (Agility Footwork)',
+                star: 'كيليان مبابي',
                 level: 'لياقة مستمرة',
                 badgeColor: 'text-rose-400 border-rose-500/30 bg-rose-500/10',
-                desc: 'تمارين تعزز التوافق العصبي العضلي وسرعة رد الفعل لتفجير سرعتك في أول خطوتين عند استلام الكرة.',
+                desc: 'تمارين تعزز التوافق وسرعة رد الفعل لتفجير سرعتك في أول خطوتين عند استلام الكرة.',
                 steps: [
-                    'حافظ على وزنك على مشطي قدميك (Balls of feet) وتجنب الارتكاز على الكعبين.',
-                    'حافظ على انحناء بسيط في الركبتين ومركز ثقل منخفض لتسريع الانطلاق.',
-                    'حرك ذراعيك بتناغم مع قدميك للمحافظة على التوازن الأقصى.'
+                    'حافظ على وزنك على مشطي قدميك وتجنب الارتكاز على الكعبين نهائياً.',
+                    'حافظ على انحناء بسيط بالركبتين ومركز ثقل منخفض لتسريع الانطلاق.',
+                    'حرك ذراعيك بتناغم مع قدميك للمحافظة على التوازن الأقصى في الجري.'
                 ],
-                proTip: 'السرعة في كرة القدم تقاس في الـ 5 أمتار الأولى أكثر من سباق الـ 100 متر.',
-                drill: 'تمارين الجري بين 6 أقماع زجزاج بسرعة قصوى مع لمس كل قمع ثم العودة السريعة (6 جولات).',
+                proTip: 'السرعة في كرة القدم تقاس في الـ 5 أمتار الأولى أكثر من مسافات الركض الطويلة.',
+                drill: 'الجري بين 6 أقماع زجزاج بسرعة قصوى مع لمس كل قمع ثم العودة السريعة (6 جولات).',
                 svgType: 'fitness'
             }
         ];
 
-        // Daily Drills Default List
         const DEFAULT_DRILLS = [
-            { id: 1, title: '50 تكرار مهارة الخطوة المزدوجة (Step-overs)', done: false },
+            { id: 1, title: '50 تكرار مهارة الخطوة المقصية (Step-overs)', done: false },
             { id: 2, title: '40 تمريرة لمسة أولى سريعة ضد حائط', done: false },
             { id: 3, title: '30 تكرار مراوغة الإيلاستيكو بالقدمين', done: false },
             { id: 4, title: 'جري زجزاج بين الأقماع 5 جولات سريعة', done: false },
             { id: 5, title: '20 تسديدة قوية ومركّزة على زوايا المرمى', done: false }
         ];
 
-        // State variables
         let masteredSkills = JSON.parse(localStorage.getItem('basem_mastered_skills') || '[]');
         let dailyDrills = JSON.parse(localStorage.getItem('basem_daily_drills')) || DEFAULT_DRILLS;
         let currentModalSkill = null;
-        let currentTimerDuration = 60; // seconds
+        let currentTimerDuration = 60;
         let timerRemaining = 60;
         let timerInterval = null;
         let isTimerRunning = false;
 
-        // Audio synthesizer for whistles & ticks (No external asset dependency)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playWhistle() {
@@ -590,9 +585,7 @@
                 gain.connect(audioCtx.destination);
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.35);
-            } catch (e) {
-                console.log("Audio not allowed yet");
-            }
+            } catch (e) {}
         }
 
         function playBeep(freq = 600, duration = 0.08) {
@@ -611,15 +604,12 @@
             } catch (e) {}
         }
 
-        // Init on DOM Load
         document.addEventListener('DOMContentLoaded', () => {
             renderSkills('all');
             renderDrills();
             updateStats();
-            checkApiKeyStatus();
         });
 
-        // Tab Switching
         function switchTab(tabId) {
             ['skills', 'coach', 'drills', 'profile'].forEach(id => {
                 const el = document.getElementById(`tab-${id}`);
@@ -637,7 +627,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Category Filtering
         function filterCategory(cat) {
             document.querySelectorAll('.cat-pill').forEach(btn => {
                 btn.classList.remove('bg-neon-green', 'text-pitch-900', 'shadow-md');
@@ -648,7 +637,6 @@
             renderSkills(cat);
         }
 
-        // Render Skills
         function renderSkills(category) {
             const container = document.getElementById('skillsContainer');
             const filtered = category === 'all' 
@@ -658,7 +646,7 @@
             container.innerHTML = filtered.map(skill => {
                 const isMastered = masteredSkills.includes(skill.id);
                 return `
-                    <div onclick="openSkillModal('${skill.id}')" class="group relative overflow-hidden rounded-2xl bg-pitch-800/80 hover:bg-pitch-800 border ${isMastered ? 'border-neon-green/60 shadow-[0_0_15px_rgba(16,185,129,0.15)]' : 'border-pitch-line'} p-4 transition-all duration-200 cursor-pointer active:scale-[0.98]">
+                    <div onclick="openSkillModal('${skill.id}')" class="group relative overflow-hidden rounded-2xl bg-pitch-800/85 hover:bg-pitch-800 border ${isMastered ? 'border-neon-green/60 shadow-[0_0_15px_rgba(16,185,129,0.2)]' : 'border-pitch-line'} p-4 transition-all duration-200 cursor-pointer active:scale-[0.98]">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex-1">
                                 <div class="flex items-center gap-2 mb-1.5 flex-wrap">
@@ -668,7 +656,7 @@
                                     <span class="text-[11px] text-gray-400 font-semibold flex items-center gap-1">
                                         ⭐ ${skill.star}
                                     </span>
-                                    ${isMastered ? '<span class="text-[10px] bg-neon-green text-pitch-900 font-black px-2 py-0.2 rounded-md">مُتقنة ✓</span>' : ''}
+                                    ${isMastered ? '<span class="text-[10px] bg-neon-green text-pitch-900 font-black px-2 py-0.5 rounded-md">مُتقنة لباسم ✓</span>' : ''}
                                 </div>
                                 <h3 class="font-display font-black text-white text-base group-hover:text-neon-green transition-colors">
                                     ${skill.name}
@@ -677,6 +665,7 @@
                                     ${skill.desc}
                                 </p>
                             </div>
+                            <!-- Mini Tactical Action Arrow -->
                             <div class="w-10 h-10 rounded-xl bg-pitch-700/60 border border-pitch-line flex items-center justify-center text-neon-green group-hover:bg-neon-green group-hover:text-pitch-900 transition-all flex-shrink-0">
                                 ➔
                             </div>
@@ -686,7 +675,6 @@
             }).join('');
         }
 
-        // Open Skill Modal & Render Pitch Visual
         function openSkillModal(skillId) {
             const skill = SKILLS_DATA.find(s => s.id === skillId);
             if (!skill) return;
@@ -694,19 +682,17 @@
 
             const isMastered = masteredSkills.includes(skill.id);
 
-            // Modal Header
             document.getElementById('modalSkillHeader').innerHTML = `
                 <div class="flex items-center gap-2 mb-1.5">
                     <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${skill.badgeColor}">
                         ${skill.level}
                     </span>
-                    <span class="text-xs text-neon-gold font-bold">بأسلوب: ${skill.star}</span>
+                    <span class="text-xs text-neon-gold font-bold">بأسلوب الأسطورة: ${skill.star}</span>
                 </div>
                 <h3 class="font-display font-black text-xl text-white">${skill.name}</h3>
                 <p class="text-xs text-gray-400 mt-1">${skill.desc}</p>
             `;
 
-            // Steps
             document.getElementById('modalSkillSteps').innerHTML = skill.steps.map((st, i) => `
                 <div class="flex items-start gap-2.5 bg-pitch-900/60 p-2.5 rounded-xl border border-pitch-line">
                     <span class="w-5 h-5 rounded-full bg-neon-green/20 text-neon-green font-display font-black text-[11px] flex items-center justify-center flex-shrink-0">
@@ -716,11 +702,9 @@
                 </div>
             `).join('');
 
-            // Pro Tip & Drill
             document.getElementById('modalSkillProTip').innerText = skill.proTip;
             document.getElementById('modalSkillDrill').innerText = skill.drill;
 
-            // Mastery Button state
             const masteryBtn = document.getElementById('toggleMasteryBtn');
             if (isMastered) {
                 masteryBtn.innerText = 'إلغاء وسم الإتقان ↺';
@@ -730,9 +714,7 @@
                 masteryBtn.className = 'w-full bg-neon-green hover:bg-emerald-400 text-pitch-900 font-display font-black py-3 rounded-xl text-xs transition-all shadow-lg neon-glow-green';
             }
 
-            // Render Dynamic Field Diagram SVG
             renderPitchSVG(skill.svgType);
-
             document.getElementById('skillModal').classList.remove('hidden');
         }
 
@@ -746,11 +728,11 @@
             const idx = masteredSkills.indexOf(currentModalSkill.id);
             if (idx > -1) {
                 masteredSkills.splice(idx, 1);
-                showToast('تم إلغاء تحديد الحركة');
+                showToast('تم إلغاء التحديد');
             } else {
                 masteredSkills.push(currentModalSkill.id);
                 playWhistle();
-                showToast('كفو يا باسم! أضفت مهارة جديدة لرصيدك ⚽🔥');
+                showToast('كفو يا باسم! أضفت مهارة جديدة لبطاقتك ⚽🔥');
             }
             localStorage.setItem('basem_mastered_skills', JSON.stringify(masteredSkills));
             updateStats();
@@ -758,40 +740,31 @@
             openSkillModal(currentModalSkill.id);
         }
 
-        // Tactical Chalkboard SVG Generator for realistic moves
         function renderPitchSVG(type) {
             const container = document.getElementById('tacticalBoardContainer');
-            // Base pitch representation with green lawn and tactical lines
             let specificOverlay = '';
 
             if (type === 'elastico') {
                 specificOverlay = `
-                    <!-- Ronaldinho Elastico Curve Trail -->
-                    <path d="M 110 90 Q 155 75 160 55 Q 165 30 190 25" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5 3" class="animate-pulse" />
-                    <!-- Footstep 1 Outside -->
-                    <circle cx="120" cy="85" r="7" fill="#10b981" />
-                    <text x="120" y="88" font-size="8" fill="#06130b" font-weight="bold" text-anchor="middle">1</text>
-                    <!-- Footstep 2 Inside Snap -->
-                    <circle cx="160" cy="55" r="7" fill="#22c55e" />
-                    <text x="160" y="58" font-size="8" fill="#06130b" font-weight="bold" text-anchor="middle">2</text>
-                    <!-- Ball -->
-                    <circle cx="110" cy="90" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                    <!-- Defender Marker -->
-                    <polygon points="160,25 152,38 168,38" fill="#ef4444" />
-                    <text x="160" y="47" font-size="8" fill="#ef4444" font-weight="bold" text-anchor="middle">المدافع</text>
+                    <path d="M 110 85 Q 155 70 160 50 Q 165 30 195 25" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5 3" />
+                    <circle cx="120" cy="80" r="7" fill="#10b981" />
+                    <text x="120" y="83" font-size="8" fill="#040d07" font-weight="bold" text-anchor="middle">1</text>
+                    <circle cx="160" cy="50" r="7" fill="#22c55e" />
+                    <text x="160" y="53" font-size="8" fill="#040d07" font-weight="bold" text-anchor="middle">2</text>
+                    <circle cx="110" cy="85" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
+                    <polygon points="160,20 152,33 168,33" fill="#ef4444" />
+                    <text x="160" y="42" font-size="8" fill="#ef4444" font-weight="bold" text-anchor="middle">المدافع</text>
                 `;
             } else if (type === 'stepover') {
                 specificOverlay = `
-                    <!-- Step-Over Scissors Loop -->
-                    <ellipse cx="140" cy="65" rx="28" ry="14" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 2" />
+                    <ellipse cx="140" cy="65" rx="30" ry="15" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 2" />
                     <circle cx="140" cy="65" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                    <path d="M 140 65 L 185 35" fill="none" stroke="#fbbf24" stroke-width="3" />
-                    <polygon points="185,35 178,39 180,31" fill="#fbbf24" />
-                    <text x="140" y="93" font-size="8" fill="#38bdf8" text-anchor="middle">دوران القدم حول الكرة</text>
+                    <path d="M 140 65 L 190 35" fill="none" stroke="#fbbf24" stroke-width="3" />
+                    <polygon points="190,35 182,39 184,31" fill="#fbbf24" />
+                    <text x="140" y="93" font-size="8" fill="#38bdf8" text-anchor="middle">دوران القدم السريع</text>
                 `;
             } else if (type === 'roulette') {
                 specificOverlay = `
-                    <!-- 360 Spin Circle -->
                     <circle cx="150" cy="60" r="26" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="6 3" />
                     <polygon points="175,60 170,52 178,52" fill="#fbbf24" />
                     <circle cx="150" cy="86" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
@@ -800,7 +773,6 @@
                 `;
             } else {
                 specificOverlay = `
-                    <!-- General Shot / Pass Vector -->
                     <path d="M 70 85 Q 140 30 230 40" fill="none" stroke="#fbbf24" stroke-width="3.5" />
                     <circle cx="70" cy="85" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
                     <polygon points="230,40 220,44 221,35" fill="#fbbf24" />
@@ -809,17 +781,15 @@
             }
 
             container.innerHTML = `
-                <svg viewBox="0 0 300 120" class="w-full max-w-[280px] h-auto rounded-lg shadow-inner bg-[#0b2416] border border-pitch-line">
-                    <!-- Pitch Markings -->
-                    <line x1="150" y1="0" x2="150" y2="120" stroke="#1c472f" stroke-width="1.5" stroke-dasharray="3 3"/>
-                    <circle cx="150" cy="60" r="30" fill="none" stroke="#1c472f" stroke-width="1.5" />
-                    <circle cx="150" cy="60" r="2" fill="#1c472f" />
+                <svg viewBox="0 0 300 120" class="w-full max-w-[280px] h-auto rounded-lg shadow-inner bg-[#072012] border border-pitch-line">
+                    <line x1="150" y1="0" x2="150" y2="120" stroke="#164327" stroke-width="1.5" stroke-dasharray="3 3"/>
+                    <circle cx="150" cy="60" r="30" fill="none" stroke="#164327" stroke-width="1.5" />
+                    <circle cx="150" cy="60" r="2" fill="#164327" />
                     ${specificOverlay}
                 </svg>
             `;
         }
 
-        // Daily Drills Logic
         function renderDrills() {
             const list = document.getElementById('drillsChecklist');
             const completed = dailyDrills.filter(d => d.done).length;
@@ -855,10 +825,9 @@
         function resetDailyDrills() {
             dailyDrills = DEFAULT_DRILLS.map(d => ({ ...d, done: false }));
             renderDrills();
-            showToast('تمت إعادة ضبط قائمة تدريبات اليوم بنجاح');
+            showToast('تمت إعادة ضبط مهام اليوم بنجاح');
         }
 
-        // Interactive Timer Logic
         function setTimerDuration(seconds) {
             clearInterval(timerInterval);
             isTimerRunning = false;
@@ -877,11 +846,9 @@
 
         function toggleTimer() {
             if (isTimerRunning) {
-                // Pause
                 clearInterval(timerInterval);
                 isTimerRunning = false;
             } else {
-                // Start
                 if (timerRemaining <= 0) timerRemaining = currentTimerDuration;
                 playBeep(520, 0.1);
                 isTimerRunning = true;
@@ -895,7 +862,7 @@
                         clearInterval(timerInterval);
                         isTimerRunning = false;
                         playWhistle();
-                        showToast('انتهى وقت التمرين! ممتاز يا بطل 👏');
+                        showToast('انتهى وقت التمرين! برافو يا بطل 👏');
                         updateTimerBtnUI();
                     }
                 }, 1000);
@@ -927,14 +894,12 @@
             }
         }
 
-        // Stats Update
         function updateStats() {
             document.getElementById('statsMasteredCount').innerText = masteredSkills.length;
             const completedDrills = dailyDrills.filter(d => d.done).length;
             document.getElementById('statsDrillsCount').innerText = completedDrills;
         }
 
-        // Toast Messages
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').innerText = msg;
@@ -944,41 +909,9 @@
             }, 2600);
         }
 
-        // API Key Management
-        function openApiKeyModal() {
-            const saved = localStorage.getItem('basem_gemini_api_key') || '';
-            document.getElementById('apiKeyInput').value = saved;
-            document.getElementById('apiKeyModal').classList.remove('hidden');
-        }
+        // Live Cloud Coach API Connection
+        const COACH_API_URL = 'https://restaurant-voters-subjective-memory.trycloudflare.com/api/coach';
 
-        function closeApiKeyModal() {
-            document.getElementById('apiKeyModal').classList.add('hidden');
-        }
-
-        function saveApiKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            if (key) {
-                localStorage.setItem('basem_gemini_api_key', key);
-                showToast('تم حفظ مفتاح Gemini بنجاح 🔑');
-            } else {
-                localStorage.removeItem('basem_gemini_api_key');
-                showToast('تمت إزالة المفتاح (وضع المحاكاة التلقائي)');
-            }
-            closeApiKeyModal();
-            checkApiKeyStatus();
-        }
-
-        function checkApiKeyStatus() {
-            const key = localStorage.getItem('basem_gemini_api_key');
-            const btnText = document.getElementById('apiKeyBtnText');
-            if (key) {
-                btnText.innerText = 'المفتاح نشط ✓';
-            } else {
-                btnText.innerText = 'إعداد المفتاح';
-            }
-        }
-
-        // Gemini AI Smart Football Coach Chat Engine
         async function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
@@ -986,13 +919,13 @@
             if (!msg) return;
             input.value = '';
             appendChatMessage('user', msg);
-            await queryGeminiCoach(msg);
+            await queryCoachServer(msg);
         }
 
         function sendQuickPrompt(promptText) {
             switchTab('coach');
             appendChatMessage('user', promptText);
-            queryGeminiCoach(promptText);
+            queryCoachServer(promptText);
         }
 
         function appendChatMessage(sender, text) {
@@ -1014,8 +947,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        async function queryGeminiCoach(userQuestion) {
-            // Typing Indicator
+        async function queryCoachServer(userQuestion) {
             const container = document.getElementById('chatMessages');
             const typingDiv = document.createElement('div');
             typingDiv.id = 'typingBubble';
@@ -1032,85 +964,25 @@
             container.appendChild(typingDiv);
             container.scrollTop = container.scrollHeight;
 
-            // System prompt specialized for Basem
-            const systemPrompt = `أنت "كوتش جيميني"، المدرب الفني والبدني الشخصي والمحترف لكرة القدم، مخصص للاعب الموهوب "باسم".
-أسلوبك: رياضي، حماسي، احترافي، فني، مشجع جداً، وواضح الخطوات.
-وجه إجابتك مباشرة لباسم (مثل: يا كابتن باسم، يا بطل).
-فكك أي مهارة إلى 3 أو 4 خطوات ميكانيكية دقيقة للقدم والجسم، واذكر له سراً احترافياً وأخطاء شائعة يتجنبها في التمارين والمباريات.
-اجعل النص باللغة العربية المشوقة والمنظمة بشكل نقاط واضحة ومختصرة مناسبة لقراءة الموبايل السريعة.`;
-
-            const apiKey = 'proxy_active';
-            const apiUrl = 'https://restaurant-voters-subjective-memory.trycloudflare.com/api/coach';
-
-            const payload = {
-                contents: [
-                    {
-                        parts: [
-                            { text: `سؤال اللاعب باسم: ${userQuestion}` }
-                        ]
-                    }
-                ],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                }
-            };
-
             try {
-                let responseText = "";
+                const res = await fetch(COACH_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userQuestion })
+                });
 
-                if (apiKey) {
-                    // Call Live Gemini API with retry logic
-                    let delay = 1000;
-                    let retries = 2;
-                    let res = null;
+                const data = await res.json();
+                document.getElementById('typingBubble')?.remove();
 
-                    for (let i = 0; i <= retries; i++) {
-                        try {
-                            res = await fetch(apiUrl, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(payload)
-                            });
-                            if (res.ok) break;
-                        } catch (err) {
-                            if (i === retries) throw err;
-                            await new Promise(r => setTimeout(r, delay));
-                            delay *= 2;
-                        }
-                    }
-
-                    const data = await res.json();
-                    if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-                        responseText = data.candidates[0].content.parts[0].text;
-                    } else {
-                        throw new Error("تنسيق غير متوقع");
-                    }
+                if (data && (data.reply || data.candidates?.[0]?.content?.parts?.[0]?.text)) {
+                    const text = data.reply || data.candidates[0].content.parts[0].text;
+                    appendChatMessage('coach', text);
                 } else {
-                    // Offline / Smart Pre-configured Coach Engine fallback if no API key is provided
-                    await new Promise(r => setTimeout(r, 900));
-                    responseText = generateLocalCoachResponse(userQuestion);
+                    throw new Error("تنسيق غير متاح");
                 }
-
+            } catch (err) {
                 document.getElementById('typingBubble')?.remove();
-                appendChatMessage('coach', responseText);
-            } catch (error) {
-                document.getElementById('typingBubble')?.remove();
-                const fallbackReply = generateLocalCoachResponse(userQuestion);
-                appendChatMessage('coach', `${fallbackReply}\n\n*(ملاحظة: يمكنك إدخال مفتاح Gemini API الخاص بك من زر "مفتاح الذكاء" بالأعلى للحصول على إجابات ديناميكية متقدمة).*`);
-            }
-        }
-
-        // Local Smart Coach Fallback Engine (Ensures 100% functionality everywhere)
-        function generateLocalCoachResponse(q) {
-            const lower = q.toLowerCase();
-            if (lower.includes('ايلاستيكو') || lower.includes('إيلاستيكو')) {
-                return `يا كابتن باسم! حركة الإيلاستيكو تعتمد على خداع عيني المدافع:\n\n1. ادفع الكرة بخارج قدمك نحو جهة اليمين وامل كتفك بالكامل ليوهم المدافع أنك مندفع للطرف.\n2. قبل أن تبتعد الكرة عن قدمك، استخدم باطن نفس القدم واكسر مسارها لليسار بحركة مطاطية واحدة وسريعة.\n3. أسرار الحركة: حافظ على مرونة كاحلك واجعل ركبتك منثنية قليلاً حتى لا تفقد توازنك!\n\nركز عليها اليوم في التدريب يا بطل وراح تكون سلاحك الفتاك في الـ 1 ضد 1! 🔥`;
-            } else if (lower.includes('سرع') || lower.includes('جدول')) {
-                return `برافو يا باسم! لتفجير سرعتك بالكرة في الملعب:\n\n• الإثنين والأربعاء: تمارين انطلاق وتسارع (Plyometrics) وجري متعرج بالأقماع (Agility Cones) 5 جولات.\n• الثلاثاء والخميس: لمس الكرة في كل خطوة (Micro-Touches) مع تغيير مفاجئ للاتجاه بزاوية 90 درجة.\n• الجمعة: تمرين سباق 30 متر بالكرة وبدونها لحساب الفارق وتقليله.\n\nالسر الحقيقي: ركضك على أطراف أصابعك وليس كعبك، مع خفض مركز ثقل جسمك! ⚡`;
-            } else if (lower.includes('تسديد') || lower.includes('ناكل') || lower.includes('فاول')) {
-                return `تسديدات الفاولات والكرات المتموجة يا كابتن باسم تتطلب تركيزاً تشريحياً دقيقاً:\n\n1. ارجع 4 خطوات بزاوية مستقيمة تقريباً.\n2. اضرب الكرة بعظمة مشط القدم (Instep) الصلبة في نقطة الصفر بمنتصف الكرة.\n3. لا تدع قدمك تتابع للأعلى بعد الركلة (Snap Follow-Through) لتظل الكرة بدون دوران وتهتز في الهواء أمام الحارس!\n\nجرب تسديد 15 كرة يومياً بعد كل تمرين وستلاحظ الفارق المذهل. 🎯`;
-            } else {
-                return `أهلاً بك يا باسم يا بطل! ⚽\nتحليلي الفني لسؤالك: أهم ما يصنع الفارق في الملعب هو سرعة القرار والهدوء العصبي (Composure).\n• تدرب دائماً برأس مرفوع لترى حركة زملائك والمدافعين.\n• خذ اللمسة الأولى في المساحة الخالية دائماً وليس تحت قدمك مباشرة.\n• ثق بمهارتك وقدرتك على الحسم في أي لحظة!\n\nأنا معك في كل خطوة لتصبح النجم الأول في فريقك. 🔥`;
+                appendChatMessage('coach', "يا بطل يا باسم، الكوتش عم بجهز تدريبك بالملعب، اعد كتابة سؤالك ثانية وراح أجاوبك فوراً! ⚽🔥");
             }
         }
     </script>
