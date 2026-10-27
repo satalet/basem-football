@@ -56,6 +56,15 @@
             100% { transform: scale(0.95); opacity: 0.9; }
         }
         .animate-radar { animation: radar-pulse 2s infinite ease-in-out; }
+        /* Smooth transitions for interactive SVG simulator */
+        .sim-actor {
+            transition: all 0.75s cubic-bezier(0.34, 1.45, 0.64, 1);
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+        .sim-path {
+            transition: all 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body class="pitch-pattern min-h-screen flex flex-col justify-between pb-24 select-none">
@@ -85,29 +94,33 @@
 
         <!-- TAB 1: ACADEMY & SKILLS -->
         <section id="tab-skills" class="space-y-4">
-            <!-- Hero Card -->
+            <!-- Hero Card with Visual Footwork Preview -->
             <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pitch-800 via-pitch-700 to-emerald-950 border border-pitch-line p-4 shadow-2xl">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-bold text-neon-gold uppercase tracking-wider bg-neon-gold/15 px-2.5 py-1 rounded-md border border-neon-gold/30">
-                        🌟 تدريب تفاعلي مباشر لباسم
+                        🌟 محاكي الحركات التفاعلي لباسم
                     </span>
-                    <span class="text-[11px] text-emerald-400 font-bold">رسوم تفاعلية ذكية</span>
+                    <span class="text-[11px] text-emerald-400 font-bold">حركة القدم والكرة 3D</span>
                 </div>
                 
-                <h2 class="text-xl font-black font-display text-white mb-1.5">
-                    تعلم مهارات وأسرار أساطير كرة القدم
+                <h2 class="text-xl font-black font-display text-white mb-1">
+                    شاهد كيف تتحرك قدمك والكرة خطوة بخطوة!
                 </h2>
                 <p class="text-xs text-gray-300 leading-relaxed mb-3">
-                    اضغط على أي مهارة لمشاهدة محاكاتها التكتيكية خطوة بخطوة بالرسم المتحرك، ومعرفة كيف تخدع المدافع وتفتح زاوية التسديد!
+                    افتح أي مهارة بالأسفل واضغط على <strong>"تشغيل الحركة"</strong> لتشاهد كيف تضع قدمك اليمنى واليسرى وكيف تخدع المدافع وتنطلق نحو المرمى!
                 </p>
 
-                <!-- Mini Demo Banner -->
-                <div class="flex items-center justify-between bg-pitch-900/80 border border-pitch-line p-2.5 rounded-xl text-xs">
-                    <div class="flex items-center gap-2">
-                        <span class="text-neon-green text-base">⚡</span>
-                        <span class="text-gray-200 font-semibold">سبورة تكتيكية متحركة لكل حركة</span>
+                <!-- Mini Legend Bar -->
+                <div class="grid grid-cols-3 gap-1.5 bg-pitch-900/90 border border-pitch-line p-2 rounded-xl text-[10px] text-center font-bold">
+                    <div class="flex items-center justify-center gap-1 text-neon-green">
+                        <span>👟</span> حركة القدمين
                     </div>
-                    <span class="text-[10px] text-neon-gold font-bold bg-neon-gold/10 px-2 py-0.5 rounded border border-neon-gold/20">تفاعلي</span>
+                    <div class="flex items-center justify-center gap-1 text-neon-gold">
+                        <span>🎯</span> مكان لمس الكرة
+                    </div>
+                    <div class="flex items-center justify-center gap-1 text-red-400">
+                        <span>🛡️</span> خداع المدافع
+                    </div>
                 </div>
             </div>
 
@@ -150,7 +163,6 @@
                     </div>
                 </div>
 
-                <!-- Quick Prompts Slider -->
                 <div class="text-[11px] font-bold text-gray-400 mb-2">استشارات سريعة مقترحة لباسم:</div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                     <button onclick="sendQuickPrompt('كيف أتقن حركة الإيلاستيكو زي رونالدينيو بدون ما أفقد توازني؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
@@ -285,56 +297,170 @@
         </section>
     </main>
 
-    <!-- INTERACTIVE SKILL DETAILS & TACTICAL BOARD MODAL -->
-    <div id="skillModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-3">
-        <div class="bg-pitch-800 border border-pitch-line w-full max-w-md rounded-2xl max-h-[92vh] overflow-y-auto no-scrollbar p-5 relative shadow-2xl">
-            <button onclick="closeSkillModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-pitch-700 text-gray-300 flex items-center justify-center hover:bg-pitch-600 transition-all font-bold">
+    <!-- INTERACTIVE SKILL DETAILS & ANIMATED FOOTWORK SIMULATOR MODAL -->
+    <div id="skillModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-2.5">
+        <div class="bg-pitch-800 border border-pitch-line w-full max-w-md rounded-2xl max-h-[94vh] overflow-y-auto no-scrollbar p-4 relative shadow-2xl">
+            <button onclick="closeSkillModal()" class="absolute top-3.5 left-3.5 w-8 h-8 rounded-full bg-pitch-700 text-gray-300 flex items-center justify-center hover:bg-pitch-600 transition-all font-bold z-10">
                 ✕
             </button>
 
             <!-- Modal Header -->
-            <div id="modalSkillHeader" class="mb-3"></div>
+            <div id="modalSkillHeader" class="mb-3 pr-1 pl-8"></div>
 
-            <!-- SMART INTERACTIVE TACTICAL BOARD -->
-            <div class="rounded-xl overflow-hidden bg-pitch-900 border border-pitch-line mb-4 relative p-3">
+            <!-- ANIMATED FOOTWORK & TACTICAL SIMULATOR -->
+            <div class="rounded-2xl overflow-hidden bg-pitch-900 border-2 border-emerald-500/30 mb-4 relative p-3 shadow-inner">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-[11px] font-bold text-white flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-neon-green animate-ping"></span>
-                        السبورة التكتيكية التفاعلية
+                    <span class="text-xs font-black text-white flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-neon-green animate-ping"></span>
+                        محاكي حركة القدم والكرة لباسم
                     </span>
-                    <!-- Auto Simulation Toggle -->
-                    <button id="animToggleBtn" onclick="toggleAnimationPlayback()" class="bg-pitch-800 hover:bg-pitch-700 text-neon-gold text-[10px] font-bold px-2.5 py-1 rounded-lg border border-neon-gold/30 flex items-center gap-1 transition-all">
+                    <button id="animToggleBtn" onclick="toggleAnimationPlayback()" class="bg-neon-gold text-pitch-900 hover:bg-amber-300 text-[11px] font-black px-3 py-1 rounded-lg flex items-center gap-1.5 transition-all shadow-md">
                         <span id="animIcon">▶</span>
                         <span id="animBtnText">تشغيل الحركة</span>
                     </button>
                 </div>
 
-                <!-- Interactive Step Selector Tabs -->
-                <div class="grid grid-cols-3 gap-1 mb-2.5 text-center">
-                    <button id="stepTab-0" onclick="setTacticalStep(0)" class="step-nav-btn py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all bg-neon-green text-pitch-900 shadow">
+                <!-- Step Selector Buttons -->
+                <div class="grid grid-cols-3 gap-1.5 mb-2.5 text-center">
+                    <button id="stepTab-0" onclick="setTacticalStep(0)" class="step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-black transition-all bg-neon-green text-pitch-900 shadow">
                         1. وضعية البدء
                     </button>
-                    <button id="stepTab-1" onclick="setTacticalStep(1)" class="step-nav-btn py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line">
-                        2. لمسة الخداع
+                    <button id="stepTab-1" onclick="setTacticalStep(1)" class="step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line">
+                        2. الخداع واللمس
                     </button>
-                    <button id="stepTab-2" onclick="setTacticalStep(2)" class="step-nav-btn py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line">
+                    <button id="stepTab-2" onclick="setTacticalStep(2)" class="step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line">
                         3. الانفجار بالكرة
                     </button>
                 </div>
 
-                <!-- Dynamic SVG Pitch Chalkboard -->
-                <div id="tacticalBoardContainer" class="w-full flex justify-center items-center py-1"></div>
+                <!-- PERSISTENT ANIMATED SVG STAGE (Goal at Top, Basem at Bottom, Boots & Ball) -->
+                <div class="w-full flex justify-center items-center">
+                    <svg id="pitchSimulatorSVG" viewBox="0 0 320 220" class="w-full h-auto rounded-xl bg-[#072213] border border-pitch-line shadow-inner overflow-hidden">
+                        <defs>
+                            <!-- Grass Stripes -->
+                            <pattern id="grassStripes" width="320" height="44" patternUnits="userSpaceOnUse">
+                                <rect width="320" height="22" fill="#072213" />
+                                <rect y="22" width="320" height="22" fill="#092917" />
+                            </pattern>
+                            <!-- Glow Filter -->
+                            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="3" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
 
-                <!-- Current Step Live Tactical Text Callout -->
-                <div id="tacticalStepDescription" class="mt-2.5 p-2 bg-pitch-800/90 border border-emerald-500/30 rounded-lg text-[11px] text-gray-200 leading-snug font-medium flex items-center gap-2">
-                    <!-- Dynamic Step Text -->
+                        <!-- Pitch Lawn Background -->
+                        <rect width="320" height="220" fill="url(#grassStripes)" />
+
+                        <!-- Goal Net at Top -->
+                        <rect x="105" y="2" width="110" height="14" rx="2" fill="none" stroke="#34d399" stroke-width="2" opacity="0.65" />
+                        <line x1="125" y1="2" x2="125" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
+                        <line x1="145" y1="2" x2="145" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
+                        <line x1="160" y1="2" x2="160" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
+                        <line x1="175" y1="2" x2="175" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
+                        <line x1="195" y1="2" x2="195" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
+                        <text x="160" y="12" font-size="8" fill="#6ee7b7" font-weight="bold" text-anchor="middle" opacity="0.8">🥅 اتجاه المرمى</text>
+
+                        <!-- Penalty Box Lines -->
+                        <rect x="60" y="16" width="200" height="55" fill="none" stroke="#164e2e" stroke-width="1.5" />
+                        <path d="M 125 71 Q 160 90 195 71" fill="none" stroke="#164e2e" stroke-width="1.5" />
+                        <line x1="0" y1="195" x2="320" y2="195" stroke="#164e2e" stroke-width="1" stroke-dasharray="4 4" />
+
+                        <!-- Dynamic Paths & Arrows Layer (Trails, Feint Lines, Cones) -->
+                        <g id="simPathsLayer"></g>
+
+                        <!-- DEFENDER / OPPONENT ACTOR -->
+                        <g id="simDefender" class="sim-actor" transform="translate(160, 82)">
+                            <!-- Defender Shadow -->
+                            <ellipse cx="0" cy="4" rx="22" ry="10" fill="#000000" opacity="0.35" />
+                            <!-- Defender Left Boot -->
+                            <rect x="-16" y="4" width="8" height="14" rx="4" fill="#991b1b" stroke="#fca5a5" stroke-width="1" />
+                            <!-- Defender Right Boot -->
+                            <rect x="8" y="4" width="8" height="14" rx="4" fill="#991b1b" stroke="#fca5a5" stroke-width="1" />
+                            <!-- Defender Shoulders -->
+                            <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#dc2626" stroke="#fecaca" stroke-width="1.5" />
+                            <!-- Defender Head -->
+                            <circle cx="0" cy="0" r="7" fill="#7f1d1d" stroke="#fca5a5" stroke-width="1.2" />
+                            <text id="defLabel" x="0" y="-13" font-size="9" fill="#fca5a5" font-weight="bold" text-anchor="middle">🛡️ المدافع</text>
+                        </g>
+
+                        <!-- BASEM LEFT FOOT (القدم اليسرى L) -->
+                        <g id="simLeftFoot" class="sim-actor" transform="translate(142, 165) rotate(0)">
+                            <rect x="-7" y="-12" width="14" height="25" rx="6" fill="#059669" stroke="#6ee7b7" stroke-width="1.5" />
+                            <!-- Boot Stripes -->
+                            <line x1="-4" y1="-4" x2="4" y2="-4" stroke="#ffffff" stroke-width="1.5" />
+                            <line x1="-4" y1="0" x2="4" y2="0" stroke="#ffffff" stroke-width="1.5" />
+                            <text x="0" y="9" font-size="8" fill="#ffffff" font-weight="black" text-anchor="middle">L</text>
+                            <text x="0" y="21" font-size="7" fill="#6ee7b7" font-weight="bold" text-anchor="middle">يسار</text>
+                        </g>
+
+                        <!-- BASEM RIGHT FOOT (القدم اليمنى R) -->
+                        <g id="simRightFoot" class="sim-actor" transform="translate(178, 165) rotate(0)">
+                            <rect x="-7" y="-12" width="14" height="25" rx="6" fill="#10b981" stroke="#fde047" stroke-width="2" />
+                            <!-- Boot Stripes -->
+                            <line x1="-4" y1="-4" x2="4" y2="-4" stroke="#040d07" stroke-width="1.5" />
+                            <line x1="-4" y1="0" x2="4" y2="0" stroke="#040d07" stroke-width="1.5" />
+                            <text x="0" y="9" font-size="8" fill="#040d07" font-weight="black" text-anchor="middle">R</text>
+                            <text x="0" y="21" font-size="7" fill="#fde047" font-weight="bold" text-anchor="middle">يمين</text>
+                        </g>
+
+                        <!-- BASEM SHOULDERS / BODY TILT -->
+                        <g id="simBasemBody" class="sim-actor" transform="translate(160, 185) rotate(0)">
+                            <rect x="-22" y="-7" width="44" height="14" rx="7" fill="#065f46" stroke="#34d399" stroke-width="1.5" opacity="0.9" />
+                            <circle cx="0" cy="0" r="6" fill="#10b981" />
+                            <text x="0" y="16" font-size="9" fill="#a7f3d0" font-weight="black" text-anchor="middle">كتف وجسم باسم</text>
+                        </g>
+
+                        <!-- THE FOOTBALL (الكرة) -->
+                        <g id="simBall" class="sim-actor" transform="translate(160, 140)">
+                            <circle cx="0" cy="2" r="9" fill="#000000" opacity="0.35" />
+                            <circle cx="0" cy="0" r="9" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+                            <!-- Pentagon pattern -->
+                            <polygon points="0,-4 4,-1 2,3 -2,3 -4,-1" fill="#0f172a" />
+                            <circle id="ballTouchPoint" cx="0" cy="0" r="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 2" />
+                        </g>
+
+                        <!-- Floating Action Callout Banner inside SVG -->
+                        <g id="simCalloutBadge">
+                            <rect x="10" y="198" width="300" height="19" rx="6" fill="#040d07" opacity="0.85" stroke="#184729" stroke-width="1" />
+                            <text id="simSvgCalloutText" x="160" y="211" font-size="9.5" fill="#fbbf24" font-weight="bold" text-anchor="middle">
+                                اضغط (تشغيل الحركة) لمشاهدة الخطوات المتحركة
+                            </text>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Boot Strike Zone & Body Action Indicator Bar -->
+                <div class="mt-2.5 grid grid-cols-2 gap-2">
+                    <div class="bg-pitch-800 border border-neon-gold/30 rounded-xl p-2 flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-neon-gold/15 border border-neon-gold/40 flex items-center justify-center text-base flex-shrink-0">
+                            👟
+                        </div>
+                        <div>
+                            <div class="text-[9px] text-gray-400 font-bold">مكان لمس الكرة بالحذاء:</div>
+                            <div id="bootTouchZoneText" class="text-[11px] text-neon-gold font-black leading-tight">وجه القدم الخارجي</div>
+                        </div>
+                    </div>
+                    <div class="bg-pitch-800 border border-neon-green/30 rounded-xl p-2 flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-neon-green/15 border border-neon-green/40 flex items-center justify-center text-base flex-shrink-0">
+                            🏃‍♂️
+                        </div>
+                        <div>
+                            <div class="text-[9px] text-gray-400 font-bold">حركة جسم وكتف باسم:</div>
+                            <div id="bodyMovementText" class="text-[11px] text-neon-green font-black leading-tight">ميلان الكتف لليمين</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Step Detailed Explanation Box -->
+                <div id="tacticalStepDescription" class="mt-2 p-2.5 bg-emerald-950/50 border border-emerald-500/40 rounded-xl text-xs text-white leading-relaxed font-semibold">
                 </div>
             </div>
 
             <!-- Steps Breakdown List -->
             <div class="space-y-2 mb-4">
                 <h4 class="font-display font-bold text-sm text-neon-gold flex items-center gap-1.5">
-                    <span>🎯</span> خطوات تطبيق الحركة بالتفصيل:
+                    <span>🎯</span> خطوات تطبيق الحركة بالتفصيل (اضغط على أي خطوة):
                 </h4>
                 <div id="modalSkillSteps" class="space-y-1.5 text-xs"></div>
             </div>
@@ -348,8 +474,8 @@
             </div>
 
             <!-- Ask Coach AI Button inside Skill -->
-            <button onclick="askCoachAboutCurrentSkill()" class="w-full mb-3 bg-gradient-to-r from-emerald-900/60 to-pitch-800 hover:from-emerald-800/80 border border-neon-green/40 text-neon-green py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
-                <span>🤖</span> اطلب سر الحركة الميداني وتفاصيلها من الكوتش
+            <button onclick="askCoachAboutCurrentSkill()" class="w-full mb-3 bg-gradient-to-r from-emerald-900/70 to-pitch-800 hover:from-emerald-800 border border-neon-green/50 text-neon-green py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
+                <span>🤖</span> اسأل الكوتش جيميني كيف تطبقها بمبارياتك
             </button>
 
             <!-- Practical Drill Challenge -->
@@ -394,7 +520,7 @@
         </div>
     </nav>
 
-    <!-- JavaScript Application Logic -->
+    <!-- JavaScript Application Logic & Choreographed Footwork Engine -->
     <script>
         const SKILLS_DATA = [
             {
@@ -404,15 +530,56 @@
                 star: 'ليونيل ميسي',
                 level: 'أساسي إلى متقدم',
                 badgeColor: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10',
-                desc: 'إسقاط الكتف ونقل وزن الجسد بدون لمس الكرة مطلقاً لفتح زاوية انطلاق سالكة وتشتيت المدافع.',
+                desc: 'إسقاط الكتف وأخذ خطوة وهمية بدون لمس الكرة لإجبار المدافع على الذهاب بالاتجاه الخاطئ ثم الانطلاق عكسه.',
                 steps: [
-                    'اقترب من المدافع بخطوات متقاربة وابقَ عينك على وضعية أقدامه.',
-                    'اخطُ بقدمك خطوة واسعة جهة اليمين واخفض كتفك وجذعك بالكامل كأنك منطلق لتلك الجهة.',
-                    'في اللحظة التي يميل فيها المدافع، ادفع الكرة بالجهة اليسرى بخارج قدمك الأخرى وانفجر بالسرعة.'
+                    'تقدّم بالكرة نحو المدافع ورأسك مرفوع، وخلّي الكرة قريبة بين قدميك اليمنى واليسرى.',
+                    'اضرب الأرض بقدمك اليمنى خطوة واسعة لليمين وميّل كتفك الأيمن بقوة (بدون أن تلمس الكرة!).',
+                    'أول ما يرمي المدافع جسمه لليمين، ادفع الكرة بوجه قدمك اليسرى الخارجي لليسار وانطلق للمرمى!'
                 ],
-                proTip: 'اقترب مسافة متر واحد فقط من المدافع لتجبره على الاندفاع السريع خلف حركتك الوهمية.',
-                drill: 'محاكاة التمويه بالجسد بسرعة عالية 40 مرة مع تبديل الاتجاه.',
-                svgType: 'feint'
+                proTip: 'سر ميسي: لا تلمس الكرة في خطوة الخداع أبداً! الخدعة كلها في صوت ضرب قدمك اليمنى للأرض وميلان كتفك.',
+                drill: 'حط قمع قدامك، وتدرب على أخذ خطوة يمين بالكتف ثم خطف الكرة باليسار 30 مرة.',
+                frames: [
+                    {
+                        leftFoot: { x: 142, y: 162, r: 0 },
+                        rightFoot: { x: 178, y: 162, r: 0 },
+                        body: { x: 160, y: 185, r: 0 },
+                        ball: { x: 160, y: 138 },
+                        defender: { x: 160, y: 80, r: 0, label: '🛡️ المدافع يراقب' },
+                        bootZone: 'الكرة أمام القدمين (استعداد)',
+                        bodyMove: 'الجسم متوازن والركبتان مثنيتان',
+                        svgCallout: '1. التقدم نحو المدافع والكرة قريبة من قدميك',
+                        paths: `<path d="M 160 155 L 160 110" stroke="#10b981" stroke-width="2" stroke-dasharray="4 3" />`
+                    },
+                    {
+                        leftFoot: { x: 145, y: 158, r: 0 },
+                        rightFoot: { x: 222, y: 142, r: 28 },
+                        body: { x: 195, y: 175, r: 22 },
+                        ball: { x: 155, y: 138 },
+                        defender: { x: 210, y: 82, r: -18, label: '💫 المدافع انخدع لليمين!' },
+                        bootZone: 'بدون لمس الكرة! (خطوة وهمية ع الأرض)',
+                        bodyMove: 'إسقاط الكتف الأيمن بقوة لليمين ↘',
+                        svgCallout: '2. قدمك اليمين تضرب الأرض يميناً والمدافع يبلع الطعم!',
+                        paths: `
+                            <path d="M 178 162 Q 205 145 222 142" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 2" />
+                            <circle cx="222" cy="142" r="14" fill="none" stroke="#fbbf24" stroke-width="2" />
+                            <text x="235" y="122" font-size="9" fill="#fbbf24" font-weight="bold" text-anchor="middle">تمويه بالقدم والكتف!</text>
+                        `
+                    },
+                    {
+                        leftFoot: { x: 105, y: 92, r: -22 },
+                        rightFoot: { x: 135, y: 112, r: -15 },
+                        body: { x: 118, y: 118, r: -15 },
+                        ball: { x: 92, y: 42 },
+                        defender: { x: 220, y: 90, r: -25, label: '❌ المدافع ضاع باليمين' },
+                        bootZone: 'الوجه الخارجي للقدم اليسرى (L)',
+                        bodyMove: 'انفجار وسرعة قصوى لليسار نحو المرمى 🚀',
+                        svgCallout: '3. ادفع الكرة بخارج قدمك اليسرى وانفرد بالمرمى! ⚽🔥',
+                        paths: `
+                            <path d="M 155 138 Q 115 100 92 42" fill="none" stroke="#10b981" stroke-width="4" />
+                            <polygon points="92,42 88,54 99,51" fill="#10b981" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'elastico',
@@ -421,15 +588,55 @@
                 star: 'رونالدينيو / نيمار',
                 level: 'محترف',
                 badgeColor: 'text-purple-400 border-purple-500/30 bg-purple-500/10',
-                desc: 'دفع الكرة للخارج بوجه القدم الخارجي ثم خطفها للداخل ببطن القدم بحركة واحدة سريعة تخدع المدافع.',
+                desc: 'دفع الكرة للخارج بوجه القدم اليمين ثم خطفها فوراً للداخل بباطن نفس القدم اليمين بحركة مطاطية واحدة.',
                 steps: [
-                    'قرب الكرة من وجه قدمك الخارجي بحركة اندفاع توهم المدافع بأنك ذاهب للطرف.',
-                    'اكسر مسار الكرة في نفس اللحظة ببطن قدمك للداخل بسرعة خاطفة ومطاطية.',
-                    'انفجر بالسرعة في المساحة الشاغرة فور فقدان المدافع لتوازنه.'
+                    'اقترب من المدافع وقرب قدمك اليمنى (R) من الجانب الأيسر للكرة.',
+                    'بوجه قدمك اليمنى الخارجي (الأصابع الصغيرة)، ادفع الكرة لليمين ليظن المدافع أنك ذاهب هناك.',
+                    'في جزء من الثانية وبنفس القدم اليمنى، لف كاحلك واخطف الكرة بباطن القدم لليسار وانطلق!'
                 ],
-                proTip: 'السر في مرونة الكاحل؛ لا تجعل الحركة على خطوتين، بل تمويجة واحدة مطاطية وسلسة.',
-                drill: 'كرر الحركة 30 مرة بقدمك القوية و20 مرة بالقدم الأضعف على خط مستقيم.',
-                svgType: 'elastico'
+                proTip: 'الحركة كلها بقدم واحدة (اليمنى R): خارج القدم لليمين ثم باطن نفس القدم لليسار بدون ما تلمس رجلك الأرض بالنص!',
+                drill: 'كرر حركة (خارج - داخل) بنفس القدم 25 مرة وأنت تتحرك للأمام ببطء ثم بسرعة.',
+                frames: [
+                    {
+                        leftFoot: { x: 135, y: 162, r: 0 },
+                        rightFoot: { x: 170, y: 155, r: -10 },
+                        body: { x: 155, y: 182, r: 0 },
+                        ball: { x: 160, y: 138 },
+                        defender: { x: 160, y: 80, r: 0, label: '🛡️ المدافع متمركز' },
+                        bootZone: 'تجهيز القدم اليمنى (R) بجانب الكرة',
+                        bodyMove: 'ثني الركبتين وخفض مركز الثقل',
+                        svgCallout: '1. الاقتراب وتجهيز كاحل القدم اليمنى بمرونة',
+                        paths: ``
+                    },
+                    {
+                        leftFoot: { x: 140, y: 155, r: 0 },
+                        rightFoot: { x: 205, y: 128, r: 25 },
+                        body: { x: 185, y: 168, r: 18 },
+                        ball: { x: 215, y: 118 },
+                        defender: { x: 210, y: 78, r: -15, label: '💫 المدافع تحرك لليمين!' },
+                        bootZone: 'الوجه الخارجي للقدم اليمنى (الأصابع الصغرى)',
+                        bodyMove: 'ميلان الجذع مع الكرة لليمين للتمويه',
+                        svgCallout: '2. لمسة أولى بخارج القدم اليمنى لليمين لخداع الخصم',
+                        paths: `
+                            <path d="M 160 138 L 215 118" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-dasharray="4 2" />
+                            <text x="235" y="102" font-size="9" fill="#fbbf24" font-weight="bold" text-anchor="middle">1. دفعة للخارج ↗</text>
+                        `
+                    },
+                    {
+                        leftFoot: { x: 125, y: 125, r: -10 },
+                        rightFoot: { x: 135, y: 98, r: -35 },
+                        body: { x: 128, y: 135, r: -15 },
+                        ball: { x: 95, y: 48 },
+                        defender: { x: 222, y: 82, r: -25, label: '❌ المدافع تجمّد مكانه!' },
+                        bootZone: 'باطن نفس القدم اليمنى (R) بلمسة خاطفة',
+                        bodyMove: 'عكس الاتجاه فوراً والانطلاق لليسار ⚡',
+                        svgCallout: '3. خطف الكرة بباطن نفس القدم اليمنى للداخل نحو المرمى!',
+                        paths: `
+                            <path d="M 160 138 L 215 118 Q 160 95 95 48" fill="none" stroke="#10b981" stroke-width="3.5" />
+                            <polygon points="95,48 92,60 103,56" fill="#10b981" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'stepover',
@@ -438,15 +645,55 @@
                 star: 'كريستيانو رونالدو / الظاهرة R9',
                 level: 'متوسط',
                 badgeColor: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
-                desc: 'لف القدم حول الكرة بدون لمسها لتمويه المدافع ونقل وزنه في الاتجاه المعاكس ثم الانطلاق.',
+                desc: 'لف القدم اليمنى في الهواء حول الكرة (بدون لمسها) لخداع المدافع، ثم دفع الكرة بالقدم اليسرى والانطلاق.',
                 steps: [
-                    'اقترب من المدافع بسرعة متوسطة بمسافة خطوة ونصف واحتفظ بتوازنك.',
-                    'لف قدمك من الداخل للخارج فوق الكرة بحركة دائرية مع إسقاط كتفك.',
-                    'ادفع الكرة بالقدم المعاكسة فور هبوط القدم الأولى على الأرض وانفجر بالمساحة.'
+                    'تقدم نحو المدافع وتوقف على بعد خطوة ونصف منه.',
+                    'لف قدمك اليمنى (R) من الداخل إلى الخارج في حلقة دائرية حول الكرة (بدون لمسها) واغرسها يميناً.',
+                    'فور اندفاع المدافع لليمين، اضرب الكرة بوجه قدمك اليسرى (L) وانطلق لليسار!'
                 ],
-                proTip: 'المدافع يراقب كتفك وجذعك؛ اخفض كتفك في اتجاه الحركة الوهمية ليصدق الخدعة.',
-                drill: 'ضع 4 أقماع على بعد مترين، ونفذ حركة المقص يميناً وشمالاً 5 مجموعات.',
-                svgType: 'stepover'
+                proTip: 'لا تلف قدمك ببطء؛ اجعل لفة المقص سريعة جداً مع هز كتفك الأيمن للأسفل ليصدق المدافع أنك ذاهب لليمين.',
+                drill: 'نفذ 20 مقص بالقدم اليمنى و20 باليسرى أمام قمع ثابت ثم انطلق بأقصى سرعة.',
+                frames: [
+                    {
+                        leftFoot: { x: 142, y: 162, r: 0 },
+                        rightFoot: { x: 178, y: 162, r: 0 },
+                        body: { x: 160, y: 185, r: 0 },
+                        ball: { x: 160, y: 135 },
+                        defender: { x: 160, y: 78, r: 0, label: '🛡️ المدافع ينتظر' },
+                        bootZone: 'الاقتراب بدون لمس (مسافة خطوة ونصف)',
+                        bodyMove: 'الركض المتوازن نحو الخصم',
+                        svgCallout: '1. الاقتراب من المدافع وتجهيز القدم اليمنى للدوران',
+                        paths: ``
+                    },
+                    {
+                        leftFoot: { x: 142, y: 158, r: 0 },
+                        rightFoot: { x: 208, y: 132, r: 22 },
+                        body: { x: 188, y: 170, r: 18 },
+                        ball: { x: 160, y: 135 },
+                        defender: { x: 205, y: 78, r: -15, label: '💫 المدافع مال لليمين!' },
+                        bootZone: 'دوران القدم اليمنى حول الكرة (بدون لمس!)',
+                        bodyMove: 'لف القدم كالمقص وهبوطها يمين الكرة 🔄',
+                        svgCallout: '2. لف القدم اليمنى حول الكرة من الداخل للخارج في الهواء',
+                        paths: `
+                            <ellipse cx="172" cy="135" rx="28" ry="18" fill="none" stroke="#38bdf8" stroke-width="3" stroke-dasharray="5 3" />
+                            <text x="225" y="112" font-size="9" fill="#38bdf8" font-weight="bold" text-anchor="middle">حركة المقص حول الكرة 🔄</text>
+                        `
+                    },
+                    {
+                        leftFoot: { x: 105, y: 95, r: -25 },
+                        rightFoot: { x: 155, y: 120, r: -10 },
+                        body: { x: 125, y: 122, r: -15 },
+                        ball: { x: 88, y: 45 },
+                        defender: { x: 215, y: 82, r: -22, label: '❌ المدافع خسر التوازن' },
+                        bootZone: 'الوجه الخارجي للقدم اليسرى (L)',
+                        bodyMove: 'الدفع بالقدم اليسرى والانفجار للمرمى 🚀',
+                        svgCallout: '3. القدم اليسرى تخطف الكرة للجهة المفتوحة نحو الشباك!',
+                        paths: `
+                            <path d="M 160 135 L 88 45" fill="none" stroke="#10b981" stroke-width="4" />
+                            <polygon points="88,45 86,57 97,52" fill="#10b981" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'roulette',
@@ -455,15 +702,54 @@
                 star: 'زين الدين زيدان',
                 level: 'محترف',
                 badgeColor: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
-                desc: 'استخدام أسفل الحذاء لدحرجة الكرة وتغطيتها بجسمك في دوران كامل للخروج من حصار مدافعين.',
+                desc: 'سحب الكرة بأسفل الحذاء الأيمن مع الالتفاف بظهرك لحمايتها من المدافع ثم سحبها بأسفل الحذاء الأيسر وإكمال الدوران.',
                 steps: [
-                    'ضع أسفل قدمك الأولى على الكرة واسحبها نحوك قليلاً.',
-                    'اقفز والتف بنصف دورة بحيث يصبح ظهرك للمدافع ليحميك جسدك.',
-                    'اسحب الكرة بأسفل قدمك الثانية في الاتجاه المقابل وأكمل الدوران 360 درجة.'
+                    'عندمايندفع المدافع لقطع الكرة، ضع أسفل حذائك الأيمن (الدعسة) فوق الكرة واسحبها للخلف قليلاً.',
+                    'لف جسمك نصف دورة ليكون ظهرك في وجه المدافع تماماً (تحمي الكرة بجسمك).',
+                    'اسحب الكرة بأسفل حذائك الأيسر (L) وأكمل الدوران 360 درجة لتنطلق خلف المدافع!'
                 ],
-                proTip: 'التوقيت هو الحاسم؛ نفذ الحركة قبل وصول المدافع بخطوة واجعل دورانك سريعاً.',
-                drill: 'تدرب على الدوران حول قمع ثابت 20 مرة مع عقارب الساعة و20 مرة عكسها.',
-                svgType: 'roulette'
+                proTip: 'استخدم "أسفل الحذاء" (Sole) لدحرجة الكرة بسلاسة، واجعل جسمك حاجزاً بين المدافع والكرة أثناء الالتفاف.',
+                drill: 'ضع قمعاً وتدرب على سحب الكرة بأسفل اليمين ثم الدوران وسحبها بأسفل اليسار 20 مرة.',
+                frames: [
+                    {
+                        leftFoot: { x: 138, y: 160, r: 0 },
+                        rightFoot: { x: 162, y: 135, r: 0 },
+                        body: { x: 155, y: 180, r: 0 },
+                        ball: { x: 160, y: 130 },
+                        defender: { x: 160, y: 88, r: 0, label: '🛡️ المدافع يهجم ع الكرة' },
+                        bootZone: 'أسفل الحذاء الأيمن (Sole / دعسة القدم)',
+                        bodyMove: 'تثبيت الكرة من الأعلى بأسفل القدم اليمنى',
+                        svgCallout: '1. ضع أسفل قدمك اليمنى فوق الكرة واسحبها قليلاً',
+                        paths: ``
+                    },
+                    {
+                        leftFoot: { x: 125, y: 105, r: 90 },
+                        rightFoot: { x: 155, y: 125, r: 140 },
+                        body: { x: 145, y: 110, r: 180 },
+                        ball: { x: 120, y: 120 },
+                        defender: { x: 175, y: 95, r: 15, label: '🛡️ ظهر باسم يحجب المدافع!' },
+                        bootZone: 'التفاف الجسم 180 درجة واستلامها بأسفل اليسرى',
+                        bodyMove: 'حماية الكرة بالظهر والدوران حول الخصم 🔄',
+                        svgCallout: '2. التف بظهرك في وجه المدافع واسحب الكرة بأسفل اليسرى',
+                        paths: `
+                            <circle cx="150" cy="112" r="32" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="5 3" />
+                        `
+                    },
+                    {
+                        leftFoot: { x: 115, y: 65, r: 0 },
+                        rightFoot: { x: 145, y: 78, r: 0 },
+                        body: { x: 130, y: 88, r: 0 },
+                        ball: { x: 120, y: 38 },
+                        defender: { x: 180, y: 110, r: 45, label: '💫 المدافع أصبح خلفك!' },
+                        bootZone: 'أسفل الحذاء الأيسر (L) لدفع الكرة للأمام',
+                        bodyMove: 'إكمال دورة 360 درجة والانفراد بالمرمى ⚡',
+                        svgCallout: '3. اكتمل دوران زيدان 360 وأصبح المدافع وراء ظهرك!',
+                        paths: `
+                            <path d="M 120 120 L 120 38" fill="none" stroke="#10b981" stroke-width="3.5" />
+                            <polygon points="120,38 115,50 125,50" fill="#10b981" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'knuckleball',
@@ -472,15 +758,55 @@
                 star: 'كريستيانو رونالدو',
                 level: 'أسطوري',
                 badgeColor: 'text-red-400 border-red-500/30 bg-red-500/10',
-                desc: 'ركل الكرة بعظمة مشط القدم بقوة تجعلها تطير بدون دوران لتهتز في الهواء وتفاجئ الحارس.',
+                desc: 'ضرب منتصف الكرة بعظمة مشط القدم الصلبة مع إيقاف الرجل فوراً لتطير الكرة بدون دوران وتهتز في الجو.',
                 steps: [
-                    'اقترب من الكرة بزاوية ضيقة (3 إلى 4 خطوات للخلف).',
-                    'اضرب الكرة بعظمة مشط القدم الصلبة تماماً في نقطة المنتصف.',
-                    'أوقف حركة متابعة قدمك فوراً لتظل الكرة بدون دوران وتهتز في الهواء.'
+                    'ارجع 4 خطوات للخلف بزاوية شبه مستقيمة وخذ نفساً عميقاً مثل رونالدو.',
+                    'ضع قدم الارتكاز اليسرى (L) بجانب الكرة، واضرب منتصف الكرة تماماً بعظمة مشط القدم اليمنى (R).',
+                    'اقطع حركة قدمك للأمام فوراً بعد الضربة لتطير الكرة بدون لف وتتموج يميناً ويساراً في الهواء!'
                 ],
-                proTip: 'ثبّت كاحلك بقوة حديدية؛ أي ارتخاء سيجعل الكرة تدور وتفقد ارتعاشها التموجي.',
-                drill: 'تسديد 25 ركلة حرة ثابتة من مسافة 22 متراً والتركيز على ثبات دوران الكرة.',
-                svgType: 'shot'
+                proTip: 'اقفل كاحلك بقوة كأنه حديد عند لحظة الاصطدام، واضرب "صمام الهواء" في وسط الكرة تماماً.',
+                drill: 'سدد 20 كرة ثابتة من خارج المنطقة مع التركيز على أن تطير الكرة بدون أي دوران.',
+                frames: [
+                    {
+                        leftFoot: { x: 145, y: 182, r: 0 },
+                        rightFoot: { x: 175, y: 185, r: 0 },
+                        body: { x: 160, y: 200, r: 0 },
+                        ball: { x: 160, y: 135 },
+                        defender: { x: 160, y: 24, r: 0, label: '🧤 الحارس في المرمى' },
+                        bootZone: 'التركيز على نقطة المنتصف في الكرة 🎯',
+                        bodyMove: 'وقفة رونالدو الاستعدادية على بعد 4 خطوات',
+                        svgCallout: '1. زاوية اقتراب مستقيمة وتثبيت النظر على وسط الكرة',
+                        paths: `<circle cx="160" cy="135" r="14" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="2 2" />`
+                    },
+                    {
+                        leftFoot: { x: 138, y: 135, r: 0 },
+                        rightFoot: { x: 162, y: 142, r: 0 },
+                        body: { x: 150, y: 162, r: 5 },
+                        ball: { x: 160, y: 130 },
+                        defender: { x: 160, y: 24, r: 0, label: '🧤 الحارس يترقب' },
+                        bootZone: 'عظمة مشط القدم الصلبة (الأربطة الأمامية)',
+                        bodyMove: 'ضربة خاطفة مع إيقاف متابعة القدم فوراً 💥',
+                        svgCallout: '2. اضرب مركز الكرة بعظمة المشط وأوقف رجلك فوراً!',
+                        paths: `
+                            <circle cx="160" cy="130" r="18" fill="none" stroke="#fbbf24" stroke-width="3" />
+                            <text x="225" y="135" font-size="9" fill="#fbbf24" font-weight="bold" text-anchor="middle">ضربة بوسط الكرة 💥</text>
+                        `
+                    },
+                    {
+                        leftFoot: { x: 138, y: 135, r: 0 },
+                        rightFoot: { x: 162, y: 125, r: 0 },
+                        body: { x: 150, y: 155, r: 0 },
+                        ball: { x: 122, y: 14 },
+                        defender: { x: 185, y: 24, r: 20, label: '😱 الحارس خُدع بالتموج!' },
+                        bootZone: 'الكرة تطير بدون دوران (Zero Spin)',
+                        bodyMove: 'ثبات الجسم ومشاهدة الكرة تمزق المقص! 🚀',
+                        svgCallout: '3. الكرة تتمايل يميناً ويساراً في الهواء وتدخل المقص!',
+                        paths: `
+                            <path d="M 160 130 Q 190 95 140 65 Q 105 40 122 14" fill="none" stroke="#ef4444" stroke-width="3.5" />
+                            <polygon points="122,14 115,25 127,25" fill="#ef4444" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'trivela',
@@ -489,15 +815,52 @@
                 star: 'ريكاردو كواريسما / مودريتش',
                 level: 'محترف',
                 badgeColor: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10',
-                desc: 'ركل الكرة بالوجه الخارجي للقدم لتلتف بقوس ساحر ومفاجئ نحو زوايا الشباك.',
+                desc: 'ضرب الطرف السفلي للكرة بالوجه الخارجي للقدم اليمنى لتلتف بقوس ساحر حول المدافع والحارس.',
                 steps: [
-                    'قف بزاوية تجعل الكرة على جانب قدمك المفضل.',
-                    'اضرب الكرة بالجزء الخارجي للقدم مع لف الكاحل للأعلى.',
-                    'دع قدمك تتابع الحركة للأعلى لتوليد دوران التفافي قوي للكرة.'
+                    'اقترب من الكرة من جهة اليسار قليلاً لتكون الكرة أمام قدمك اليمنى.',
+                    'اضرب الجانب الأيسر السفلي للكرة باستخدام الوجه الخارجي لحذائك الأيمن (الأصابع الثلاثة الخارجية).',
+                    'خلّي قدمك تتابع حركتها للأعلى ولليمين لتعطي الكرة لولبة خارجية قوية نحو الزاوية البعيدة!'
                 ],
-                proTip: 'انحنِ بجذعك للأمام قليلاً فوق الكرة لمنعها من الارتفاع الزائد فوق العارضة.',
-                drill: 'تسديد 20 كرة مقوسة من أطراف منطقة الجزاء باستخدام الوجه الخارجي فقط.',
-                svgType: 'trivela'
+                proTip: 'ميل بجسمك للأمام قليلاً فوق الكرة حتى تلتف الكرة بشكل مقوس داخل الشباك ولا تطير فوق العارضة.',
+                drill: 'سدد 15 كرة من خارج منطقة الجزاء بالوجه الخارجي للقدم نحو الزاوية البعيدة.',
+                frames: [
+                    {
+                        leftFoot: { x: 122, y: 165, r: 10 },
+                        rightFoot: { x: 148, y: 170, r: 10 },
+                        body: { x: 135, y: 185, r: 10 },
+                        ball: { x: 160, y: 140 },
+                        defender: { x: 160, y: 78, r: 0, label: '🛡️ حائط الصد' },
+                        bootZone: 'الاستعداد بزاوية مائلة لليسار',
+                        bodyMove: 'تجهيز القدم اليمنى للضرب بالخارجي',
+                        svgCallout: '1. الاقتراب بزاوية تسمح للقدم اليمنى بلف الكرة',
+                        paths: ``
+                    },
+                    {
+                        leftFoot: { x: 132, y: 142, r: 0 },
+                        rightFoot: { x: 158, y: 142, r: -25 },
+                        body: { x: 142, y: 162, r: -10 },
+                        ball: { x: 165, y: 132 },
+                        defender: { x: 160, y: 78, r: 0, label: '🛡️ المدافع يغلق الوسط' },
+                        bootZone: 'الوجه الخارجي للقدم اليمنى (الأصابع الصغرى)',
+                        bodyMove: 'حفّ الكرة من طرفها الأيسر للخارج 🌀',
+                        svgCallout: '2. اضرب طرف الكرة بالوجه الخارجي للحذاء الأيمن',
+                        paths: `<circle cx="165" cy="132" r="15" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="3 2" />`
+                    },
+                    {
+                        leftFoot: { x: 132, y: 142, r: 0 },
+                        rightFoot: { x: 178, y: 122, r: 20 },
+                        body: { x: 150, y: 152, r: 10 },
+                        ball: { x: 195, y: 14 },
+                        defender: { x: 155, y: 78, r: 0, label: '😲 الكرة التفّت من حوله!' },
+                        bootZone: 'دوران خارجي التفافي (Outside Spin)',
+                        bodyMove: 'متابعة القدم للأعلى والكرة تعانق المقص 🎯',
+                        svgCallout: '3. الكرة تقوّس خارج التغطية وتدخل الزاوية التسعين!',
+                        paths: `
+                            <path d="M 165 132 Q 245 85 195 14" fill="none" stroke="#38bdf8" stroke-width="4" />
+                            <polygon points="195,14 193,26 204,22" fill="#38bdf8" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'dead-first-touch',
@@ -506,32 +869,110 @@
                 star: 'رياض محرز / برباتوف',
                 level: 'أساسي لكل بطل',
                 badgeColor: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
-                desc: 'امتصاص قوة الكرات العالية أو القوية لتستقر فوراً تحت حذائك كالوسادة وتجهز لانطلاقتك.',
+                desc: 'امتصاص سرعة الكرة القادمة بقوة عبر سحب القدم للخلف لحظة التلامس لتنام الكرة تحت قدمك فوراً.',
                 steps: [
-                    'راقب مسار الكرة في الهواء وركّز نظرك عليها حتى لحظة الوصول.',
-                    'ارفع قدمك، وقبل ملامسة الكرة بنصف ثانية اسحب قدمك قليلاً للأسفل والخلف.',
-                    'استخدم باطن القدم لامتصاص السرعة وتثبيت الكرة أمام خطوتك التالية مباشرة.'
+                    'تابع الكرة القادمة إليك بعينيك وحرك جسمك لتكون في مسار سقوطها.',
+                    'ارفع قدمك اليمنى (R) لاستقبال الكرة، ولحظة ملامسة الكرة للحذاء اسحب قدمك للخلف بنعومة (كأنك تمسك بيضة).',
+                    'ستسقط الكرة ميتة أمامك مباشرة لتنطلق بها أو تسدد في المرمى بحرية!'
                 ],
-                proTip: 'لا تركل الكرة لاستقبالها؛ تخيل أنك تلتقط بيضة دون أن تنكسر.',
-                drill: 'ركل الكرة في حائط صلب واستقبالها باللمسة الأولى لتقف على بعد أقل من 30 سم (40 تكرار).',
-                svgType: 'control'
+                proTip: 'إذا ثبتّ قدمك بقوة ستطير الكرة بعيداً عنك؛ السر هو سحب القدم للخلف مع الكرة لتمتص قوتها.',
+                drill: 'اركل الكرة بقوة في الحائط واستقبلها بباطن قدمك بحيث تقف مكانها تماماً (40 مرة).',
+                frames: [
+                    {
+                        leftFoot: { x: 142, y: 155, r: 0 },
+                        rightFoot: { x: 175, y: 138, r: -15 },
+                        body: { x: 160, y: 178, r: 0 },
+                        ball: { x: 175, y: 55 },
+                        defender: { x: 95, y: 95, r: 0, label: '🛡️ خصم يراقب' },
+                        bootZone: 'رفع باطن أو مشط القدم اليمنى بالهواء',
+                        bodyMove: 'توازن كامل على قدم الارتكاز اليسرى (L)',
+                        svgCallout: '1. الكرة قادمة بسرعة؛ ارفع قدمك اليمنى لاستقبالها',
+                        paths: `
+                            <path d="M 175 55 L 175 128" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 3" />
+                            <polygon points="175,128 170,118 180,118" fill="#fbbf24" />
+                        `
+                    },
+                    {
+                        leftFoot: { x: 142, y: 155, r: 0 },
+                        rightFoot: { x: 175, y: 152, r: -10 },
+                        body: { x: 160, y: 180, r: 0 },
+                        ball: { x: 172, y: 142 },
+                        defender: { x: 110, y: 95, r: 0, label: '🛡️ الخصم لميلحقها' },
+                        bootZone: 'باطن القدم يسحب للخلف لامتصاص القوة 🪶',
+                        bodyMove: 'مرونة في الكاحل والركبة كالوسادة',
+                        svgCallout: '2. اسحب قدمك اليمنى للخلف قليلاً لحظة لمس الكرة!',
+                        paths: `<circle cx="172" cy="142" r="15" fill="none" stroke="#10b981" stroke-width="2.5" />`
+                    },
+                    {
+                        leftFoot: { x: 145, y: 140, r: 0 },
+                        rightFoot: { x: 175, y: 142, r: 0 },
+                        body: { x: 160, y: 162, r: 0 },
+                        ball: { x: 165, y: 118 },
+                        defender: { x: 115, y: 105, r: 0, label: '👏 تحكم أسطوري!' },
+                        bootZone: 'الكرة مستقرة تماماً أمامك جاهزة للتسديد',
+                        bodyMove: 'رأسك مرفوع والكرة تحت سيطرتك 100% ⚽',
+                        svgCallout: '3. نامت الكرة تحت قدمك وأصبحت جاهزاً للتسديد!',
+                        paths: `
+                            <path d="M 165 118 L 160 25" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="4 2" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'tiki-taka-pass',
                 category: 'control',
                 name: 'تمريرة اللمسة الواحدة (One-Touch Pass)',
-                star: 'إنييستا / تشافي',
+                star: 'إنييستا / تشافي / بيدري',
                 level: 'متوسط',
                 badgeColor: 'text-teal-400 border-teal-500/30 bg-teal-500/10',
-                desc: 'تمرير الكرة بلمسة واحدة محسوبة لكسر خطوط الخصم وسرعة تدوير اللعب قبل وصول الضغط.',
+                desc: 'ضرب الكرة القادمة من لمسة واحدة بباطن القدم المفتوح لكسر دفاع الخصم قبل أن يضغط عليك.',
                 steps: [
-                    'امسح الملعب بنظرك قبل وصول الكرة إليك لتعرف خيار التمرير مسبقاً.',
-                    'ثبت قدم الارتكاز بجانب مسار الكرة واجعل كاحل قدم التمرير صلباً وموجهاً للهدف.',
-                    'اضرب مركز الكرة بمنتصف باطن القدم مع توجيه جسدك بالكامل نحو الزميل.'
+                    'التفت برأسك يميناً ويساراً (Scan) قبل أن تصل الكرة إليك لتعرف مكان زميلك أو المرمى.',
+                    'افتح باطن قدمك اليمنى (R) بزاوية 90 درجة واقفل كاحلك بقوة.',
+                    'وجّه الكرة من لمسة واحدة مباشرة في المساحة الفارغة خلف المدافع!'
                 ],
-                proTip: 'القرار يُتخذ في عقلك قبل أن تلمس الكرة قدمك بثانية كاملة.',
-                drill: 'تمرير متواصل مع حائط أو زميل من لمسة واحدة متتالية بالقدمين (50 تمريرة).',
-                svgType: 'pass'
+                proTip: 'باطن القدم هو أدق سلاح في كرة القدم؛ اجعل قدمك مثل المضرب الصلب الموجه نحو الهدف.',
+                drill: 'مرر الكرة على الحائط من لمسة واحدة يمين ثم يسار بدون توقف 50 مرة.',
+                frames: [
+                    {
+                        leftFoot: { x: 140, y: 158, r: 0 },
+                        rightFoot: { x: 178, y: 158, r: 45 },
+                        body: { x: 158, y: 180, r: 0 },
+                        ball: { x: 225, y: 145 },
+                        defender: { x: 175, y: 92, r: 0, label: '🛡️ مدافع يضغط' },
+                        bootZone: 'فتح باطن القدم اليمنى بزاوية 90 درجة',
+                        bodyMove: 'مسح الملعب بالعين (Scan) قبل وصول الكرة 👀',
+                        svgCallout: '1. الكرة قادمة؛ افتح باطن قدمك اليمنى باتجاه الهدف',
+                        paths: `
+                            <path d="M 225 145 L 175 145" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="3 2" />
+                        `
+                    },
+                    {
+                        leftFoot: { x: 140, y: 152, r: 0 },
+                        rightFoot: { x: 168, y: 145, r: 45 },
+                        body: { x: 155, y: 175, r: -10 },
+                        ball: { x: 160, y: 140 },
+                        defender: { x: 172, y: 102, r: 0, label: '🛡️ المدافع اقترب' },
+                        bootZone: 'منتصف باطن القدم (Inside Foot) بكاحل ثابت',
+                        bodyMove: 'ضرب الكرة من لمسة واحدة بدون توقيف ⚡',
+                        svgCallout: '2. اضرب الكرة بباطن قدمك من لمسة واحدة فوراً!',
+                        paths: `<circle cx="160" cy="140" r="14" fill="none" stroke="#10b981" stroke-width="2.5" />`
+                    },
+                    {
+                        leftFoot: { x: 140, y: 152, r: 0 },
+                        rightFoot: { x: 162, y: 132, r: 35 },
+                        body: { x: 152, y: 170, r: -12 },
+                        ball: { x: 115, y: 35 },
+                        defender: { x: 172, y: 108, r: 20, label: '❌ التمريرة كسرت الخط!' },
+                        bootZone: 'توجيه الكرة كالليزر في المساحة الخالية',
+                        bodyMove: 'متابعة القدم نحو الهدف بعد التمرير 🎯',
+                        svgCallout: '3. التمريرة السريعة ضربت الدفاع ووصلت للمرمى!',
+                        paths: `
+                            <path d="M 160 140 L 115 35" fill="none" stroke="#10b981" stroke-width="4" />
+                            <polygon points="115,35 112,47 123,43" fill="#10b981" />
+                        `
+                    }
+                ]
             },
             {
                 id: 'ladder-agility',
@@ -540,15 +981,61 @@
                 star: 'كيليان مبابي',
                 level: 'لياقة مستمرة',
                 badgeColor: 'text-rose-400 border-rose-500/30 bg-rose-500/10',
-                desc: 'تمارين تعزز التوافق وسرعة رد الفعل لتفجير سرعتك في أول خطوتين عند استلام الكرة.',
+                desc: 'التحرك السريع على أطراف الأصابع بين الأقماع لتفجير سرعتك في أول 3 خطوات بالملعب.',
                 steps: [
-                    'حافظ على وزنك على مشطي قدميك وتجنب الارتكاز على الكعبين نهائياً.',
-                    'حافظ على انحناء بسيط بالركبتين ومركز ثقل منخفض لتسريع الانطلاق.',
-                    'حرك ذراعيك بتناغم مع قدميك للمحافظة على التوازن الأقصى في الجري.'
+                    'قف على أطراف أصابع قدميك (أبداً لا تقف على كعبك) واثنِ ركبتيك قليلاً.',
+                    'بدّل خطواتك بسرعة فائقة (يمين - يسار - يمين) حول الأقماع مع تحريك ذراعيك بقوة.',
+                    'عند آخر قمع، ادفع الأرض بمشط قدمك وانفجر نحو الكرة والمرمى مثل مبابي!'
                 ],
-                proTip: 'السرعة في كرة القدم تقاس في الـ 5 أمتار الأولى أكثر من مسافات الركض الطويلة.',
-                drill: 'الجري بين 6 أقماع زجزاج بسرعة قصوى مع لمس كل قمع ثم العودة السريعة (6 جولات).',
-                svgType: 'fitness'
+                proTip: 'أول خطوتين قصيرتين وسريعتين جداً على المشط هما سر التفوق على أي مدافع بالسباق.',
+                drill: '6 جولات جري زجزاج سريع بين الأقماع مع إنهاء كل جولة بتسديدة على المرمى.',
+                frames: [
+                    {
+                        leftFoot: { x: 138, y: 168, r: 0 },
+                        rightFoot: { x: 175, y: 160, r: 12 },
+                        body: { x: 155, y: 185, r: 0 },
+                        ball: { x: 160, y: 55 },
+                        defender: { x: 215, y: 95, r: 0, label: '🛡️ مدافع بالسباق' },
+                        bootZone: 'الارتكاز على مشط وأطراف الأصابع فقط',
+                        bodyMove: 'انحناء للأمام استعداداً للانطلاق الصاروخي',
+                        svgCallout: '1. قف على أطراف أصابعك وابدأ الزجزاج بين الأقماع',
+                        paths: `
+                            <polygon points="160,135 153,147 167,147" fill="#f97316" />
+                            <polygon points="130,105 123,117 137,117" fill="#f97316" />
+                            <polygon points="160,80 153,92 167,92" fill="#f97316" />
+                        `
+                    },
+                    {
+                        leftFoot: { x: 112, y: 112, r: -18 },
+                        rightFoot: { x: 145, y: 125, r: -10 },
+                        body: { x: 128, y: 138, r: -12 },
+                        ball: { x: 160, y: 55 },
+                        defender: { x: 210, y: 85, r: 0, label: '🛡️ المدافع يحاول اللحاق' },
+                        bootZone: 'خطوات قصيرة وخاطفة حول الأقماع ⚡',
+                        bodyMove: 'تبديل الأقدام بسرعة عالية مع توازن الكتفين',
+                        svgCallout: '2. خطوات سريعة وخفيفة يميناً ويساراً حول الأقماع',
+                        paths: `
+                            <polygon points="160,135 153,147 167,147" fill="#f97316" />
+                            <polygon points="130,105 123,117 137,117" fill="#f97316" />
+                            <polygon points="160,80 153,92 167,92" fill="#f97316" />
+                            <path d="M 165 160 Q 185 135 120 112" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-dasharray="3 2" />
+                        `
+                    },
+                    {
+                        leftFoot: { x: 145, y: 65, r: 0 },
+                        rightFoot: { x: 172, y: 62, r: 0 },
+                        body: { x: 158, y: 82, r: 0 },
+                        ball: { x: 160, y: 16 },
+                        defender: { x: 210, y: 80, r: 0, label: '💨 باسم سبق المدافع!' },
+                        bootZone: 'تسديد الكرة بوجه القدم نحو الشباك ⚽',
+                        bodyMove: 'انفجار بالسرعة القصوى وتسجيل الهدف! 🔥',
+                        svgCallout: '3. انطلق كالصاروخ للكرة وسددها مباشرة في الشباك!',
+                        paths: `
+                            <path d="M 160 55 L 160 16" fill="none" stroke="#10b981" stroke-width="4" />
+                            <polygon points="160,16 154,28 166,28" fill="#10b981" />
+                        `
+                    }
+                ]
             }
         ];
 
@@ -563,7 +1050,7 @@
         let masteredSkills = JSON.parse(localStorage.getItem('basem_mastered_skills') || '[]');
         let dailyDrills = JSON.parse(localStorage.getItem('basem_daily_drills')) || DEFAULT_DRILLS;
         let currentModalSkill = null;
-        let activeTacticalStep = 0; // 0, 1, 2
+        let activeTacticalStep = 0;
         let animPlaybackInterval = null;
         let isAnimPlaying = false;
 
@@ -668,8 +1155,9 @@
                                     ${skill.desc}
                                 </p>
                             </div>
-                            <div class="w-10 h-10 rounded-xl bg-pitch-700/60 border border-pitch-line flex items-center justify-center text-neon-green group-hover:bg-neon-green group-hover:text-pitch-900 transition-all flex-shrink-0">
-                                ➔
+                            <div class="w-10 h-10 rounded-xl bg-pitch-700/60 border border-pitch-line flex flex-col items-center justify-center text-neon-green group-hover:bg-neon-green group-hover:text-pitch-900 transition-all flex-shrink-0">
+                                <span class="text-xs">▶</span>
+                                <span class="text-[8px] font-bold">محاكي</span>
                             </div>
                         </div>
                     </div>
@@ -682,7 +1170,6 @@
             if (!skill) return;
             currentModalSkill = skill;
             activeTacticalStep = 0;
-            stopAnimationPlayback();
 
             const isMastered = masteredSkills.includes(skill.id);
 
@@ -693,7 +1180,7 @@
                     </span>
                     <span class="text-xs text-neon-gold font-bold">بأسلوب الأسطورة: ${skill.star}</span>
                 </div>
-                <h3 class="font-display font-black text-xl text-white">${skill.name}</h3>
+                <h3 class="font-display font-black text-lg text-white">${skill.name}</h3>
                 <p class="text-xs text-gray-400 mt-0.5">${skill.desc}</p>
             `;
 
@@ -710,8 +1197,10 @@
                 masteryBtn.className = 'w-full bg-neon-green hover:bg-emerald-400 text-pitch-900 font-display font-black py-3 rounded-xl text-xs transition-all shadow-lg neon-glow-green';
             }
 
-            updateTacticalDisplay();
             document.getElementById('skillModal').classList.remove('hidden');
+            updateTacticalDisplay();
+            // Auto start animation smoothly so Basem immediately sees the move in action!
+            startAnimationPlayback();
         }
 
         function closeSkillModal() {
@@ -723,7 +1212,7 @@
         function renderStepList() {
             if (!currentModalSkill) return;
             document.getElementById('modalSkillSteps').innerHTML = currentModalSkill.steps.map((st, i) => `
-                <div onclick="setTacticalStep(${i})" class="flex items-start gap-2.5 p-2.5 rounded-xl border cursor-pointer transition-all ${activeTacticalStep === i ? 'bg-pitch-700/80 border-neon-green shadow-sm' : 'bg-pitch-900/60 border-pitch-line hover:border-gray-500'}">
+                <div onclick="manualSelectStep(${i})" class="flex items-start gap-2.5 p-2.5 rounded-xl border cursor-pointer transition-all ${activeTacticalStep === i ? 'bg-pitch-700/90 border-neon-green shadow-sm' : 'bg-pitch-900/60 border-pitch-line hover:border-gray-500'}">
                     <span class="w-5 h-5 rounded-full ${activeTacticalStep === i ? 'bg-neon-green text-pitch-900' : 'bg-pitch-800 text-neon-green'} font-display font-black text-[11px] flex items-center justify-center flex-shrink-0 transition-all">
                         ${i+1}
                     </span>
@@ -732,9 +1221,14 @@
             `).join('');
         }
 
+        function manualSelectStep(stepIndex) {
+            stopAnimationPlayback();
+            setTacticalStep(stepIndex);
+        }
+
         function setTacticalStep(stepIndex) {
             activeTacticalStep = stepIndex;
-            playBeep(640 + stepIndex * 120, 0.06);
+            playBeep(620 + stepIndex * 110, 0.05);
             updateTacticalDisplay();
             renderStepList();
         }
@@ -748,225 +1242,79 @@
         }
 
         function startAnimationPlayback() {
+            stopAnimationPlayback();
             isAnimPlaying = true;
             document.getElementById('animIcon').innerText = '⏸';
-            document.getElementById('animBtnText').innerText = 'إيقاف';
-            document.getElementById('animToggleBtn').classList.add('bg-neon-gold', 'text-pitch-900');
+            document.getElementById('animBtnText').innerText = 'إيقاف مؤقت';
             
             animPlaybackInterval = setInterval(() => {
                 activeTacticalStep = (activeTacticalStep + 1) % 3;
                 updateTacticalDisplay();
                 renderStepList();
-                playBeep(700 + activeTacticalStep * 100, 0.05);
-            }, 1800);
+            }, 1900);
         }
 
         function stopAnimationPlayback() {
             isAnimPlaying = false;
-            clearInterval(animPlaybackInterval);
-            const btn = document.getElementById('animToggleBtn');
-            if (btn) {
-                document.getElementById('animIcon').innerText = '▶';
-                document.getElementById('animBtnText').innerText = 'تشغيل الحركة';
-                btn.classList.remove('bg-neon-gold', 'text-pitch-900');
+            if (animPlaybackInterval) clearInterval(animPlaybackInterval);
+            const icon = document.getElementById('animIcon');
+            const txt = document.getElementById('animBtnText');
+            if (icon && txt) {
+                icon.innerText = '▶';
+                txt.innerText = 'تشغيل الحركة';
             }
         }
 
-        // UPDATE THE INTERACTIVE TACTICAL BOARD
+        // CHOREOGRAPHED SMOOTH SVG ANIMATOR
         function updateTacticalDisplay() {
             if (!currentModalSkill) return;
             const step = activeTacticalStep;
+            const frame = currentModalSkill.frames[step];
 
-            // Update Tab Buttons UI
+            // Update Step Buttons
             [0, 1, 2].forEach(i => {
                 const btn = document.getElementById(`stepTab-${i}`);
                 if (i === step) {
-                    btn.className = 'step-nav-btn py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all bg-neon-green text-pitch-900 shadow';
+                    btn.className = 'step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-black transition-all bg-neon-green text-pitch-900 shadow';
                 } else {
-                    btn.className = 'step-nav-btn py-1.5 px-1 rounded-lg text-[10px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line hover:text-white';
+                    btn.className = 'step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-bold transition-all bg-pitch-800 text-gray-300 border border-pitch-line hover:text-white';
                 }
             });
 
-            // Update Callout Text
-            const stepTexts = [
-                `📍 المرحلة 1: ${currentModalSkill.steps[0]}`,
-                `⚡ المرحلة 2 (الخداع): ${currentModalSkill.steps[1]}`,
-                `🚀 المرحلة 3 (الحسم): ${currentModalSkill.steps[2]}`
-            ];
+            // Smoothly Transform Actors on the Pitch
+            const leftFoot = document.getElementById('simLeftFoot');
+            const rightFoot = document.getElementById('simRightFoot');
+            const body = document.getElementById('simBasemBody');
+            const ball = document.getElementById('simBall');
+            const defender = document.getElementById('simDefender');
+            const defLabel = document.getElementById('defLabel');
+            const pathsLayer = document.getElementById('simPathsLayer');
+            const svgCallout = document.getElementById('simSvgCalloutText');
+
+            leftFoot.setAttribute('transform', `translate(${frame.leftFoot.x}, ${frame.leftFoot.y}) rotate(${frame.leftFoot.r})`);
+            rightFoot.setAttribute('transform', `translate(${frame.rightFoot.x}, ${frame.rightFoot.y}) rotate(${frame.rightFoot.r})`);
+            body.setAttribute('transform', `translate(${frame.body.x}, ${frame.body.y}) rotate(${frame.body.r})`);
+            ball.setAttribute('transform', `translate(${frame.ball.x}, ${frame.ball.y})`);
+            defender.setAttribute('transform', `translate(${frame.defender.x}, ${frame.defender.y}) rotate(${frame.defender.r})`);
+            
+            defLabel.textContent = frame.defender.label;
+            pathsLayer.innerHTML = frame.paths || '';
+            svgCallout.textContent = frame.svgCallout;
+
+            // Update Boot Contact Zone & Body Action Cards
+            document.getElementById('bootTouchZoneText').innerText = frame.bootZone;
+            document.getElementById('bodyMovementText').innerText = frame.bodyMove;
+
+            // Update Detailed Step Description
             document.getElementById('tacticalStepDescription').innerHTML = `
-                <span class="text-neon-gold font-bold">الخطوة ${step+1}:</span>
-                <span>${stepTexts[step]}</span>
-            `;
-
-            // Render Animated SVG based on Skill & Step
-            renderTacticalStepSVG(currentModalSkill.svgType, step);
-        }
-
-        function renderTacticalStepSVG(type, step) {
-            const container = document.getElementById('tacticalBoardContainer');
-            let content = '';
-
-            // 1. BODY FEINT (تمويه الجسد والكتف)
-            if (type === 'feint') {
-                if (step === 0) {
-                    content = `
-                        <!-- Step 1: Approach -->
-                        <circle cx="80" cy="60" r="10" fill="#10b981" />
-                        <text x="80" y="64" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="102" cy="60" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <path d="M 80 60 L 150 60" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 2" />
-                        <!-- Defender waiting -->
-                        <circle cx="210" cy="60" r="10" fill="#ef4444" />
-                        <text x="210" y="64" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="145" y="80" font-size="9" fill="#38bdf8" text-anchor="middle">1. الاقتراب برأس مرفوع والكرة ملتصقة</text>
-                    `;
-                } else if (step === 1) {
-                    content = `
-                        <!-- Step 2: Drop Shoulder & Feint Right -->
-                        <path d="M 120 60 Q 155 45 170 30" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 2" />
-                        <!-- Basem body leaning Right -->
-                        <circle cx="170" cy="32" r="10" fill="#10b981" />
-                        <text x="170" y="36" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <line x1="158" y1="22" x2="182" y2="42" stroke="#fbbf24" stroke-width="3" />
-                        <text x="170" y="16" font-size="8" fill="#fbbf24" font-weight="bold" text-anchor="middle">إسقاط الكتف يميناً ↘</text>
-                        <!-- Ball stays center -->
-                        <circle cx="140" cy="60" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <!-- Defender fooled jumping to his left -->
-                        <circle cx="210" cy="35" r="10" fill="#ef4444" />
-                        <text x="210" y="39" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <polygon points="210,35 225,25 218,22" fill="#ef4444" />
-                        <text x="150" y="98" font-size="9" fill="#ef4444" text-anchor="middle">2. الخصم ابتلع الطعم واندفع لتغطية اليمين!</text>
-                    `;
-                } else {
-                    content = `
-                        <!-- Step 3: Ball Cut Left & Explosion -->
-                        <circle cx="150" cy="40" r="9" fill="#10b981" opacity="0.4" />
-                        <!-- Ball pushed left -->
-                        <path d="M 140 60 Q 165 85 240 85" stroke="#10b981" stroke-width="3.5" />
-                        <polygon points="240,85 228,89 230,80" fill="#10b981" />
-                        <circle cx="240" cy="85" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <!-- Basem exploding left into open space -->
-                        <circle cx="215" cy="85" r="10" fill="#10b981" />
-                        <text x="215" y="89" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <!-- Defender stranded -->
-                        <circle cx="190" cy="30" r="10" fill="#ef4444" />
-                        <text x="190" y="34" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="108" font-size="9" fill="#10b981" font-weight="bold" text-anchor="middle">3. خطف الكرة لليسار وتجاوز المدافع بالكامل! ⚽🔥</text>
-                    `;
-                }
-            } 
-            // 2. ELASTICO (الإيلاستيكو)
-            else if (type === 'elastico') {
-                if (step === 0) {
-                    content = `
-                        <circle cx="80" cy="65" r="10" fill="#10b981" />
-                        <text x="80" y="69" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="100" cy="65" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="190" cy="65" r="10" fill="#ef4444" />
-                        <text x="190" y="69" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="95" font-size="9" fill="#38bdf8" text-anchor="middle">1. التوجه نحو المدافع بسرعة متوسطة وثني الركبتين</text>
-                    `;
-                } else if (step === 1) {
-                    content = `
-                        <path d="M 100 65 Q 145 40 160 30" stroke="#fbbf24" stroke-width="3" stroke-dasharray="3 2" />
-                        <circle cx="150" cy="35" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <text x="145" y="22" font-size="8" fill="#fbbf24" font-weight="bold" text-anchor="middle">دفعة بالخارجي للخارج ↗</text>
-                        <circle cx="185" cy="40" r="10" fill="#ef4444" />
-                        <text x="185" y="44" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="98" font-size="9" fill="#fbbf24" text-anchor="middle">2. دفع الكرة بالوجه الخارجي لإيهام الخصم بالانطلاق</text>
-                    `;
-                } else {
-                    content = `
-                        <path d="M 150 35 Q 170 50 235 65" stroke="#10b981" stroke-width="3.5" />
-                        <polygon points="235,65 223,68 226,60" fill="#10b981" />
-                        <circle cx="235" cy="65" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="210" cy="65" r="10" fill="#10b981" />
-                        <text x="210" y="69" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="180" cy="30" r="10" fill="#ef4444" />
-                        <text x="180" y="34" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="105" font-size="9" fill="#10b981" font-weight="bold" text-anchor="middle">3. لَف الكاحل وخطف الكرة للداخل ببطن القدم! ⚡</text>
-                    `;
-                }
-            }
-            // 3. STEPOVER (المقص)
-            else if (type === 'stepover') {
-                if (step === 0) {
-                    content = `
-                        <circle cx="90" cy="60" r="10" fill="#10b981" />
-                        <text x="90" y="64" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="112" cy="60" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="200" cy="60" r="10" fill="#ef4444" />
-                        <text x="200" y="64" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="95" font-size="9" fill="#38bdf8" text-anchor="middle">1. ضبط المسافة على بعد خطوة ونصف من المدافع</text>
-                    `;
-                } else if (step === 1) {
-                    content = `
-                        <ellipse cx="130" cy="60" rx="26" ry="16" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="4 2" />
-                        <circle cx="130" cy="60" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="130" cy="40" r="6" fill="#10b981" />
-                        <text x="130" y="24" font-size="8" fill="#38bdf8" font-weight="bold" text-anchor="middle">دوران القدم الدائري فوق الكرة 🔄</text>
-                        <circle cx="195" cy="60" r="10" fill="#ef4444" />
-                        <text x="195" y="64" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="98" font-size="9" fill="#fbbf24" text-anchor="middle">2. لف القدم من الداخل للخارج مع خفض الكتف</text>
-                    `;
-                } else {
-                    content = `
-                        <path d="M 130 60 L 225 35" stroke="#10b981" stroke-width="3.5" />
-                        <polygon points="225,35 214,39 216,30" fill="#10b981" />
-                        <circle cx="225" cy="35" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="205" cy="35" r="10" fill="#10b981" />
-                        <text x="205" y="39" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="185" cy="70" r="10" fill="#ef4444" />
-                        <text x="185" y="74" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">خصم</text>
-                        <text x="150" y="105" font-size="9" fill="#10b981" font-weight="bold" text-anchor="middle">3. الانطلاق بالقدم الأخرى في المساحة المعاكسة!</text>
-                    `;
-                }
-            }
-            // 4. GENERAL (ROULETTE / KNUCKLEBALL / OTHER SKILLS)
-            else {
-                if (step === 0) {
-                    content = `
-                        <circle cx="75" cy="60" r="10" fill="#10b981" />
-                        <text x="75" y="64" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="95" cy="60" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="215" cy="60" r="10" fill="#ef4444" />
-                        <text x="215" y="64" font-size="9" fill="#ffffff" font-weight="black" text-anchor="middle">الهدف</text>
-                        <path d="M 95 60 L 150 60" stroke="#10b981" stroke-width="2" stroke-dasharray="3 3"/>
-                        <text x="150" y="95" font-size="9" fill="#38bdf8" text-anchor="middle">1. اتخاذ وضعية الاستعداد والتوازن الحركي</text>
-                    `;
-                } else if (step === 1) {
-                    content = `
-                        <path d="M 95 60 Q 150 25 180 50" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 2" />
-                        <circle cx="145" cy="40" r="10" fill="#10b981" />
-                        <text x="145" y="44" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <circle cx="165" cy="45" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <text x="150" y="98" font-size="9" fill="#fbbf24" text-anchor="middle">2. تطبيق اللمسة الفنية المحكمة وتوجيه الجسد</text>
-                    `;
-                } else {
-                    content = `
-                        <path d="M 165 45 L 245 45" stroke="#10b981" stroke-width="3.5" />
-                        <polygon points="245,45 234,49 235,40" fill="#10b981" />
-                        <circle cx="245" cy="45" r="6" fill="#ffffff" stroke="#000" stroke-width="1.5" />
-                        <circle cx="215" cy="45" r="10" fill="#10b981" />
-                        <text x="215" y="49" font-size="9" fill="#040d07" font-weight="black" text-anchor="middle">باسم</text>
-                        <text x="150" y="105" font-size="9" fill="#10b981" font-weight="bold" text-anchor="middle">3. إتمام المهارة بأقصى قوة وسرعة بدنية! 💥</text>
-                    `;
-                }
-            }
-
-            container.innerHTML = `
-                <svg viewBox="0 0 300 120" class="w-full max-w-[290px] h-auto rounded-lg shadow-inner bg-[#072012] border border-pitch-line">
-                    <line x1="150" y1="0" x2="150" y2="120" stroke="#164327" stroke-width="1.5" stroke-dasharray="3 3"/>
-                    <circle cx="150" cy="60" r="30" fill="none" stroke="#164327" stroke-width="1.5" />
-                    <circle cx="150" cy="60" r="2" fill="#164327" />
-                    ${content}
-                </svg>
+                <span class="text-neon-gold font-black ml-1">الخطوة ${step+1}:</span>
+                <span>${currentModalSkill.steps[step]}</span>
             `;
         }
 
         function askCoachAboutCurrentSkill() {
             if (!currentModalSkill) return;
-            const q = `يا كوتش، كيف أطبق مهارة "${currentModalSkill.name}" بالملعب بشكل عملي ومتقن؟ وأعطني أهم خطأ أبتعد عنه عشان ما يقطعها المدافع!`;
+            const q = `يا كوتش، اشرحلي مهارة "${currentModalSkill.name}" بطريقة سهلة ومفصلة لعمري، وكيف أحرك قدمي اليمين والشمال بالملعب عشان أخدع المدافع من أول مرة!`;
             closeSkillModal();
             sendQuickPrompt(q);
         }
