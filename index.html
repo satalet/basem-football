@@ -56,7 +56,6 @@
             100% { transform: scale(0.95); opacity: 0.9; }
         }
         .animate-radar { animation: radar-pulse 2s infinite ease-in-out; }
-        /* Smooth transitions for interactive SVG simulator */
         .sim-actor {
             transition: all 0.75s cubic-bezier(0.34, 1.45, 0.64, 1);
             transform-box: fill-box;
@@ -69,6 +68,26 @@
 </head>
 <body class="pitch-pattern min-h-screen flex flex-col justify-between pb-24 select-none">
 
+    <!-- ONE-TIME NEW FEATURE NOTICE BANNER FOR BASEM -->
+    <div id="newFeatureBanner" class="hidden bg-gradient-to-r from-emerald-700 via-teal-700 to-pitch-800 border-b border-neon-green/40 px-3 py-2 text-white shadow-xl transition-all duration-300">
+        <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="text-base animate-bounce">🥗</span>
+                <p class="text-[11px] font-bold leading-tight">
+                    <span class="text-neon-gold">جديد يا باسم:</span> تم إضافة جدول تغذية الأبطال لبناء العضلات والطاقة!
+                </p>
+            </div>
+            <div class="flex items-center gap-1.5 flex-shrink-0">
+                <button onclick="dismissNewFeatureNotice(true)" class="bg-neon-gold text-pitch-900 text-[10px] font-black px-2.5 py-1 rounded-lg hover:bg-amber-300 transition-all shadow">
+                    اكتشفه الآن 👈
+                </button>
+                <button onclick="dismissNewFeatureNotice(false)" class="text-gray-300 hover:text-white text-xs px-1.5 py-0.5 rounded-full hover:bg-black/30">
+                    ✕
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Top Navigation Header -->
     <header class="sticky top-0 z-40 bg-pitch-900/95 backdrop-blur-md border-b border-pitch-line px-4 py-3 flex items-center justify-between shadow-lg">
         <div class="flex items-center gap-3">
@@ -79,7 +98,7 @@
                 <h1 class="text-lg font-black font-display tracking-wide text-white flex items-center gap-1.5">
                     باسم فوتبول <span class="text-[11px] bg-neon-gold/20 text-neon-gold border border-neon-gold/40 px-2 py-0.5 rounded-full font-bold">PRO</span>
                 </h1>
-                <p class="text-[11px] text-gray-400 font-medium">أكاديمية التدريب والمهارات الذكية</p>
+                <p class="text-[11px] text-gray-400 font-medium">أكاديمية التدريب والمهارات والمدرب الذكي</p>
             </div>
         </div>
 
@@ -110,7 +129,6 @@
                     افتح أي مهارة بالأسفل واضغط على <strong>"تشغيل الحركة"</strong> لتشاهد كيف تضع قدمك اليمنى واليسرى وكيف تخدع المدافع وتنطلق نحو المرمى!
                 </p>
 
-                <!-- Mini Legend Bar -->
                 <div class="grid grid-cols-3 gap-1.5 bg-pitch-900/90 border border-pitch-line p-2 rounded-xl text-[10px] text-center font-bold">
                     <div class="flex items-center justify-center gap-1 text-neon-green">
                         <span>👟</span> حركة القدمين
@@ -143,11 +161,206 @@
                 </button>
             </div>
 
-            <!-- Skills List Grid -->
             <div id="skillsContainer" class="space-y-3"></div>
         </section>
 
-        <!-- TAB 2: SMART COACH -->
+        <!-- TAB 2: CHAMPIONS NUTRITION (تغذية الأبطال وجدول الأكل) -->
+        <section id="tab-nutrition" class="hidden space-y-4">
+            
+            <!-- Nutrition Hero Card -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-900 via-pitch-800 to-teal-950 border border-emerald-500/30 p-4 shadow-2xl">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-bold text-neon-gold uppercase tracking-wider bg-neon-gold/15 px-2.5 py-1 rounded-md border border-neon-gold/30">
+                        🥗 وقود الأبطال لباسم (عمر 12 سنة)
+                    </span>
+                    <span class="text-[11px] text-neon-green font-bold">بناء العضلات والتركيز</span>
+                </div>
+                <h2 class="text-xl font-black font-display text-white mb-1">
+                    أكلك اليوم هو سرعتك وقوتك بالملعب بكرا!
+                </h2>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    كرة القدم تحتاج عضلات قوية، طاقة ما بتخلص، وتركيز ذهني سريع. هذا جدولك الغذائي اليومي المتكامل مع البدائل الذكية:
+                </p>
+
+                <!-- Nutrition Core Pillars -->
+                <div class="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-pitch-line text-center">
+                    <div class="bg-pitch-900/60 p-2 rounded-xl border border-pitch-line">
+                        <div class="text-lg">💪</div>
+                        <div class="text-[11px] font-black text-white">بناء العضلات</div>
+                        <div class="text-[9px] text-neon-green font-bold">بيض • تونة • دجاج</div>
+                    </div>
+                    <div class="bg-pitch-900/60 p-2 rounded-xl border border-pitch-line">
+                        <div class="text-lg">⚡</div>
+                        <div class="text-[11px] font-black text-white">طاقة للملعب</div>
+                        <div class="text-[9px] text-neon-gold font-bold">شوفان • موز • بطاطا</div>
+                    </div>
+                    <div class="bg-pitch-900/60 p-2 rounded-xl border border-pitch-line">
+                        <div class="text-lg">🧠</div>
+                        <div class="text-[11px] font-black text-white">سرعة وذاكرة</div>
+                        <div class="text-[9px] text-neon-cyan font-bold">مكسرات • تمر • ماء</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Water Tracker -->
+            <div class="rounded-2xl bg-pitch-800 border border-pitch-line p-4 shadow-lg">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">💧</span>
+                        <div>
+                            <h3 class="font-display font-black text-white text-sm">مقياس شرب الماء اليومي</h3>
+                            <p class="text-[10px] text-gray-400">يحمي عضلاتك من الشد العضلي ويبقيك نشيطاً</p>
+                        </div>
+                    </div>
+                    <span id="waterCountBadge" class="text-xs font-black text-neon-cyan bg-neon-cyan/15 border border-neon-cyan/30 px-2.5 py-1 rounded-lg">
+                        0 / 8 كاسات
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between gap-1 my-3 bg-pitch-900 p-2.5 rounded-xl border border-pitch-line" id="waterCupsContainer">
+                    <!-- Rendered dynamically -->
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="addWaterCup()" class="flex-1 bg-neon-cyan hover:bg-sky-400 text-pitch-900 font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow">
+                        <span>+</span> <span>شربت كاسة ماء</span>
+                    </button>
+                    <button onclick="resetWaterCups()" class="bg-pitch-700 hover:bg-pitch-600 text-gray-300 font-bold px-3 py-2 rounded-xl text-xs transition-all">
+                        تصفير ↺
+                    </button>
+                </div>
+            </div>
+
+            <!-- Daily Interactive Meal Schedule -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between px-1">
+                    <h3 class="font-display font-black text-white text-sm flex items-center gap-1.5">
+                        <span>🍽️</span> جدول وجباتك اليومية لبناء عضلاتك:
+                    </h3>
+                    <span id="mealsProgressText" class="text-[11px] font-bold text-neon-green">0/5 وجبات منجزة</span>
+                </div>
+
+                <!-- Meal 1: Breakfast -->
+                <div class="meal-card rounded-2xl bg-pitch-800 border border-pitch-line p-3.5 transition-all shadow-md">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🍳</span>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">1. فطور الطاقة والانطلاق (الصباح)</h4>
+                                <p class="text-[10px] text-neon-gold font-semibold">بناء العضلات + شحن الطاقة للمدرسة والتدريب</p>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="meal-1" onchange="toggleMealCheck(1)" class="w-5 h-5 rounded-lg accent-emerald-500 cursor-pointer">
+                    </div>
+                    <div class="bg-pitch-900/80 p-2.5 rounded-xl text-xs text-gray-300 space-y-1 border border-pitch-line/80">
+                        <div>• <strong>الطبق الأساسي:</strong> 2 إلى 3 بيضات (مسلوق أو أومليت) + رغيف خبز قمح كامل أو شوفان بالحليب.</div>
+                        <div>• <strong>سناك الفواكه:</strong> حبة موز 🍌 + ملعقة عسل طبيعي.</div>
+                        <div class="pt-1 border-t border-pitch-line/60 text-[11px] text-emerald-400">
+                            💡 <strong>بدائل سريعة:</strong> ما بدك بيض اليوم؟ بدله بـ (ساندويش جبنة بيضاء أو لبنة مع زيت زيتون + كاسة حليب كامل الدسم).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meal 2: Pre-Training Snack -->
+                <div class="meal-card rounded-2xl bg-pitch-800 border border-pitch-line p-3.5 transition-all shadow-md">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">⚡</span>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">2. وقود ما قبل التمرين (ساعة ونصف قبل النزول للملعب)</h4>
+                                <p class="text-[10px] text-neon-cyan font-semibold">طاقة انفجارية وسرعة بدون ثقل بالمعدة</p>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="meal-2" onchange="toggleMealCheck(2)" class="w-5 h-5 rounded-lg accent-emerald-500 cursor-pointer">
+                    </div>
+                    <div class="bg-pitch-900/80 p-2.5 rounded-xl text-xs text-gray-300 space-y-1 border border-pitch-line/80">
+                        <div>• <strong>الخيار الأول:</strong> 3 حبات تمر + حفنة صغيرة لوز أو جوز 🧠 (للتركيز ورد الفعل السريع).</div>
+                        <div>• <strong>الخيار الثاني:</strong> توست مع زبدة الفول السوداني وشريحة موز.</div>
+                        <div class="pt-1 border-t border-pitch-line/60 text-[11px] text-amber-300">
+                            ⚠️ <strong>تنبيه الكوتش:</strong> ابتعد عن الشيبس والحلويات والغازيات قبل التمرين لأنها بتسبب خمول وهبوط سريع بالسكر!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meal 3: Post-Training Recovery -->
+                <div class="meal-card rounded-2xl bg-pitch-800 border border-pitch-line p-3.5 transition-all shadow-md">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🐟</span>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">3. الاستشفاء العضلي السريع (أول 30 دقيقة بعد التمرين)</h4>
+                                <p class="text-[10px] text-neon-green font-semibold">ترميم الألياف العضلية وبناء عضلات فخذ قوية</p>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="meal-3" onchange="toggleMealCheck(3)" class="w-5 h-5 rounded-lg accent-emerald-500 cursor-pointer">
+                    </div>
+                    <div class="bg-pitch-900/80 p-2.5 rounded-xl text-xs text-gray-300 space-y-1 border border-pitch-line/80">
+                        <div>• <strong>البروتين الذهبي السريع:</strong> علبة تونة صغيرة مع نصف رغيف خبز، أو علبة لبن زبادي / حليب بالشوكولاتة.</div>
+                        <div>• <strong>الترطيب:</strong> كاستين ماء لتعويض العرق المفقود في الملعب.</div>
+                        <div class="pt-1 border-t border-pitch-line/60 text-[11px] text-emerald-400">
+                            💡 <strong>سر الأبطال:</strong> العضلات بعد التمرين بتكون زي الإسفنجة؛ البروتين بهالوقت ببني جسمك أسرع بمرتين!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meal 4: Champion Lunch -->
+                <div class="meal-card rounded-2xl bg-pitch-800 border border-pitch-line p-3.5 transition-all shadow-md">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🍗</span>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">4. غداء النجوم المتكامل (الوجبة الرئيسية)</h4>
+                                <p class="text-[10px] text-neon-gold font-semibold">بروتين صافي + كربوهيدرات معقدة + فيتامينات</p>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="meal-4" onchange="toggleMealCheck(4)" class="w-5 h-5 rounded-lg accent-emerald-500 cursor-pointer">
+                    </div>
+                    <div class="bg-pitch-900/80 p-2.5 rounded-xl text-xs text-gray-300 space-y-1 border border-pitch-line/80">
+                        <div>• <strong>البروتين:</strong> صدر دجاج مشوي، أو لحمة عجل، أو سمك فيليه.</div>
+                        <div>• <strong>الطاقة:</strong> صحن رز أبيض أو معكرونة أو بطاطا مسلوقة/مشوية.</div>
+                        <div>• <strong>المناعة:</strong> صحن سلطة خضراء (خيار، بندورة، خس، عصرة ليمون وزيت زيتون).</div>
+                    </div>
+                </div>
+
+                <!-- Meal 5: Growth & Deep Sleep Dinner -->
+                <div class="meal-card rounded-2xl bg-pitch-800 border border-pitch-line p-3.5 transition-all shadow-md">
+                    <div class="flex items-start justify-between gap-2 mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🥛</span>
+                            <div>
+                                <h4 class="font-bold text-white text-xs">5. عشاء النمو والراحة العميقة (قبل النوم بساعة ونصف)</h4>
+                                <p class="text-[10px] text-purple-300 font-semibold">إفراز هرمون النمو أثناء النوم وترميم الجسم</p>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="meal-5" onchange="toggleMealCheck(5)" class="w-5 h-5 rounded-lg accent-emerald-500 cursor-pointer">
+                    </div>
+                    <div class="bg-pitch-900/80 p-2.5 rounded-xl text-xs text-gray-300 space-y-1 border border-pitch-line/80">
+                        <div>• <strong>العشاء:</strong> ساندويش جبنة قريش أو بيض مسلوق مع زعتر وزيت زيتون.</div>
+                        <div>• <strong>مشروب النوم:</strong> كاسة حليب دافئ أو لبن رائب (يساعد على ارتخاء العضلات ونوم عميق 9 ساعات).</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ask Coach AI about Nutrition Button -->
+            <div class="rounded-2xl bg-gradient-to-r from-emerald-950 to-pitch-800 border border-emerald-500/40 p-3.5 text-center shadow-lg">
+                <h4 class="text-xs font-black text-white mb-1.5 flex items-center justify-center gap-1.5">
+                    <span>🤖</span> بدك وجبة مخصصة أو محتار شو تاكل اليوم؟
+                </h4>
+                <p class="text-[11px] text-gray-300 leading-relaxed mb-3">
+                    الكوتش الذكي مربوط معك مباشرة؛ اطلب منه وجبتك المفضلة وسيعطيك البديل الصحي فوراً!
+                </p>
+                <div class="flex flex-col gap-2">
+                    <button onclick="askCoachNutrition('يا كوتش، اقترح علي وجبة فطور سريعة فيها بروتين عالي لبناء عضلاتي قبل التمرين')" class="bg-pitch-900 hover:bg-pitch-800 border border-neon-green/40 text-neon-green text-xs font-bold py-2 px-3 rounded-xl transition-all">
+                        ⚡ اقترح فطور بروتين سريع
+                    </button>
+                    <button onclick="askCoachNutrition('يا كوتش، أنا اليوم ما بدي آكل تونة ولا بيض، شو في بديل بروتين قوي وسريع للعضلات؟')" class="bg-pitch-900 hover:bg-pitch-800 border border-neon-gold/40 text-neon-gold text-xs font-bold py-2 px-3 rounded-xl transition-all">
+                        🥩 بدائل قوية للتونة والبيض
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: SMART COACH -->
         <section id="tab-coach" class="hidden space-y-4">
             <div class="rounded-2xl bg-pitch-800 border border-pitch-line p-4 shadow-xl">
                 <div class="flex items-center gap-3 mb-3">
@@ -159,20 +372,20 @@
                     </div>
                     <div>
                         <h3 class="font-display font-black text-white text-base">كوتش باسم الميداني 🏆</h3>
-                        <p class="text-xs text-neon-green font-medium">المدرب الفني والتكتيكي الخاص بك</p>
+                        <p class="text-xs text-neon-green font-medium">المدرب الفني والبدني والغذائي الخاص بك</p>
                     </div>
                 </div>
 
                 <div class="text-[11px] font-bold text-gray-400 mb-2">استشارات سريعة مقترحة لباسم:</div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                    <button onclick="sendQuickPrompt('يا كوتش، شو آكل بعد تمرين فطبول قوي عشان أبني عضلات فخذي بدون تعب؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
+                        🍗 وجبة بعد تمرين قوي
+                    </button>
                     <button onclick="sendQuickPrompt('كيف أتقن حركة الإيلاستيكو زي رونالدينيو بدون ما أفقد توازني؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
                         ⚡ إتقان الإيلاستيكو
                     </button>
                     <button onclick="sendQuickPrompt('كيف أطبق التمويه بالكتف والجسد زي ميسي وأخدع المدافع؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
                         🏃‍♂️ تمويه الجسد والكتف
-                    </button>
-                    <button onclick="sendQuickPrompt('كيف أسدد ركلات حرة متموجة بأسلوب الناكل بول (Knuckleball)؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
-                        🎯 تسديد الناكل بول
                     </button>
                     <button onclick="sendQuickPrompt('كيف أتجاوز المدافع السريع والقوي بدنياً؟')" class="whitespace-nowrap bg-pitch-700/60 hover:bg-pitch-700 text-gray-200 text-xs px-3 py-1.5 rounded-lg border border-pitch-line transition-all">
                         🛡️ كسر المدافع الصلب
@@ -187,21 +400,21 @@
                         كوتش
                     </div>
                     <div class="bg-pitch-800 text-gray-200 rounded-2xl rounded-tr-none p-3 max-w-[85%] border border-pitch-line text-xs leading-relaxed">
-                        أهلاً يا كابتن باسم! أنا كوتشك الميداني المباشر. اسألني عن أي حركة، تكتيك لتجاوز المدافعين، أو طريقة تسديد متقنة لتمزق الشباك اليوم! ⚽🔥
+                        أهلاً يا كابتن باسم! أنا كوتشك الميداني والغذائي المباشر. اسألني عن أي حركة، خطة لتغذية عضلاتك، أو كيفية تجاوز المدافعين بذكاء وسرعة! ⚽🔥
                     </div>
                 </div>
             </div>
 
             <!-- Chat Input -->
             <form id="chatForm" onsubmit="handleChatSubmit(event)" class="relative flex items-center gap-2">
-                <input id="chatInput" type="text" placeholder="اسأل الكوتش عن أي حركة أو مهارة كروية..." class="w-full bg-pitch-800 border border-pitch-line rounded-xl px-4 py-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-neon-green transition-all" required>
+                <input id="chatInput" type="text" placeholder="اسأل الكوتش عن المهارات أو التغذية والأكل..." class="w-full bg-pitch-800 border border-pitch-line rounded-xl px-4 py-3 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-neon-green transition-all" required>
                 <button type="submit" id="sendBtn" class="bg-gradient-to-r from-neon-green to-emerald-500 text-pitch-900 font-bold px-4 py-3 rounded-xl flex items-center justify-center hover:opacity-95 transition-all shadow-md">
                     <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </button>
             </form>
         </section>
 
-        <!-- TAB 3: DRILLS & TIMER -->
+        <!-- TAB 4: DRILLS & TIMER -->
         <section id="tab-drills" class="hidden space-y-4">
             <div class="rounded-2xl bg-gradient-to-b from-pitch-800 to-pitch-900 border border-pitch-line p-5 text-center shadow-xl">
                 <span class="text-xs font-bold text-neon-green tracking-wider uppercase">مؤقت تمارين اللياقة والمهارة</span>
@@ -242,7 +455,7 @@
             </div>
         </section>
 
-        <!-- TAB 4: BASEM PRO CARD -->
+        <!-- TAB 5: BASEM PRO CARD -->
         <section id="tab-profile" class="hidden space-y-4">
             <div class="relative rounded-3xl bg-gradient-to-b from-amber-500/20 via-pitch-800 to-pitch-900 border-2 border-neon-gold/50 p-6 text-center shadow-2xl overflow-hidden neon-glow-gold">
                 <div class="absolute -right-8 -top-8 w-32 h-32 bg-neon-gold/15 rounded-full blur-2xl"></div>
@@ -291,20 +504,19 @@
                     <span>🔥</span> رسالة الكوتش اليومية لك:
                 </h4>
                 <p class="text-xs text-gray-300 leading-relaxed">
-                    "الموهبة بتفتح لك الباب، بس التكرار والإصرار بالملعب هو اللي بصنع الأساطير. التزم بتمرينك اليوم وخلّي ثقتك بنفسك تهز الشباك!"
+                    "الموهبة بتفتح لك الباب، بس التغذية السليمة والتمرين المستمر هم اللي بصنعوا بطل الملاعب. كل بذكاء، تدرب بقوة، وخلّي ثقتك بنفسك تهز الشباك!"
                 </p>
             </div>
         </section>
     </main>
 
-    <!-- INTERACTIVE SKILL DETAILS & ANIMATED FOOTWORK SIMULATOR MODAL -->
+    <!-- INTERACTIVE SKILL DETAILS MODAL -->
     <div id="skillModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-2.5">
         <div class="bg-pitch-800 border border-pitch-line w-full max-w-md rounded-2xl max-h-[94vh] overflow-y-auto no-scrollbar p-4 relative shadow-2xl">
             <button onclick="closeSkillModal()" class="absolute top-3.5 left-3.5 w-8 h-8 rounded-full bg-pitch-700 text-gray-300 flex items-center justify-center hover:bg-pitch-600 transition-all font-bold z-10">
                 ✕
             </button>
 
-            <!-- Modal Header -->
             <div id="modalSkillHeader" class="mb-3 pr-1 pl-8"></div>
 
             <!-- ANIMATED FOOTWORK & TACTICAL SIMULATOR -->
@@ -320,7 +532,6 @@
                     </button>
                 </div>
 
-                <!-- Step Selector Buttons -->
                 <div class="grid grid-cols-3 gap-1.5 mb-2.5 text-center">
                     <button id="stepTab-0" onclick="setTacticalStep(0)" class="step-nav-btn py-1.5 px-1 rounded-xl text-[11px] font-black transition-all bg-neon-green text-pitch-900 shadow">
                         1. وضعية البدء
@@ -333,26 +544,18 @@
                     </button>
                 </div>
 
-                <!-- PERSISTENT ANIMATED SVG STAGE (Goal at Top, Basem at Bottom, Boots & Ball) -->
                 <div class="w-full flex justify-center items-center">
                     <svg id="pitchSimulatorSVG" viewBox="0 0 320 220" class="w-full h-auto rounded-xl bg-[#072213] border border-pitch-line shadow-inner overflow-hidden">
                         <defs>
-                            <!-- Grass Stripes -->
                             <pattern id="grassStripes" width="320" height="44" patternUnits="userSpaceOnUse">
                                 <rect width="320" height="22" fill="#072213" />
                                 <rect y="22" width="320" height="22" fill="#092917" />
                             </pattern>
-                            <!-- Glow Filter -->
-                            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-                                <feGaussianBlur stdDeviation="3" result="blur" />
-                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                            </filter>
                         </defs>
 
-                        <!-- Pitch Lawn Background -->
                         <rect width="320" height="220" fill="url(#grassStripes)" />
 
-                        <!-- Goal Net at Top -->
+                        <!-- Goal Net -->
                         <rect x="105" y="2" width="110" height="14" rx="2" fill="none" stroke="#34d399" stroke-width="2" opacity="0.65" />
                         <line x1="125" y1="2" x2="125" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
                         <line x1="145" y1="2" x2="145" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
@@ -361,66 +564,55 @@
                         <line x1="195" y1="2" x2="195" y2="16" stroke="#34d399" stroke-width="0.7" opacity="0.4" />
                         <text x="160" y="12" font-size="8" fill="#6ee7b7" font-weight="bold" text-anchor="middle" opacity="0.8">🥅 اتجاه المرمى</text>
 
-                        <!-- Penalty Box Lines -->
                         <rect x="60" y="16" width="200" height="55" fill="none" stroke="#164e2e" stroke-width="1.5" />
                         <path d="M 125 71 Q 160 90 195 71" fill="none" stroke="#164e2e" stroke-width="1.5" />
                         <line x1="0" y1="195" x2="320" y2="195" stroke="#164e2e" stroke-width="1" stroke-dasharray="4 4" />
 
-                        <!-- Dynamic Paths & Arrows Layer (Trails, Feint Lines, Cones) -->
                         <g id="simPathsLayer"></g>
 
-                        <!-- DEFENDER / OPPONENT ACTOR -->
+                        <!-- DEFENDER -->
                         <g id="simDefender" class="sim-actor" transform="translate(160, 82)">
-                            <!-- Defender Shadow -->
                             <ellipse cx="0" cy="4" rx="22" ry="10" fill="#000000" opacity="0.35" />
-                            <!-- Defender Left Boot -->
                             <rect x="-16" y="4" width="8" height="14" rx="4" fill="#991b1b" stroke="#fca5a5" stroke-width="1" />
-                            <!-- Defender Right Boot -->
                             <rect x="8" y="4" width="8" height="14" rx="4" fill="#991b1b" stroke="#fca5a5" stroke-width="1" />
-                            <!-- Defender Shoulders -->
                             <rect x="-20" y="-8" width="40" height="16" rx="8" fill="#dc2626" stroke="#fecaca" stroke-width="1.5" />
-                            <!-- Defender Head -->
                             <circle cx="0" cy="0" r="7" fill="#7f1d1d" stroke="#fca5a5" stroke-width="1.2" />
                             <text id="defLabel" x="0" y="-13" font-size="9" fill="#fca5a5" font-weight="bold" text-anchor="middle">🛡️ المدافع</text>
                         </g>
 
-                        <!-- BASEM LEFT FOOT (القدم اليسرى L) -->
+                        <!-- BASEM LEFT FOOT -->
                         <g id="simLeftFoot" class="sim-actor" transform="translate(142, 165) rotate(0)">
                             <rect x="-7" y="-12" width="14" height="25" rx="6" fill="#059669" stroke="#6ee7b7" stroke-width="1.5" />
-                            <!-- Boot Stripes -->
                             <line x1="-4" y1="-4" x2="4" y2="-4" stroke="#ffffff" stroke-width="1.5" />
                             <line x1="-4" y1="0" x2="4" y2="0" stroke="#ffffff" stroke-width="1.5" />
                             <text x="0" y="9" font-size="8" fill="#ffffff" font-weight="black" text-anchor="middle">L</text>
                             <text x="0" y="21" font-size="7" fill="#6ee7b7" font-weight="bold" text-anchor="middle">يسار</text>
                         </g>
 
-                        <!-- BASEM RIGHT FOOT (القدم اليمنى R) -->
+                        <!-- BASEM RIGHT FOOT -->
                         <g id="simRightFoot" class="sim-actor" transform="translate(178, 165) rotate(0)">
                             <rect x="-7" y="-12" width="14" height="25" rx="6" fill="#10b981" stroke="#fde047" stroke-width="2" />
-                            <!-- Boot Stripes -->
                             <line x1="-4" y1="-4" x2="4" y2="-4" stroke="#040d07" stroke-width="1.5" />
                             <line x1="-4" y1="0" x2="4" y2="0" stroke="#040d07" stroke-width="1.5" />
                             <text x="0" y="9" font-size="8" fill="#040d07" font-weight="black" text-anchor="middle">R</text>
                             <text x="0" y="21" font-size="7" fill="#fde047" font-weight="bold" text-anchor="middle">يمين</text>
                         </g>
 
-                        <!-- BASEM SHOULDERS / BODY TILT -->
+                        <!-- BASEM SHOULDERS -->
                         <g id="simBasemBody" class="sim-actor" transform="translate(160, 185) rotate(0)">
                             <rect x="-22" y="-7" width="44" height="14" rx="7" fill="#065f46" stroke="#34d399" stroke-width="1.5" opacity="0.9" />
                             <circle cx="0" cy="0" r="6" fill="#10b981" />
                             <text x="0" y="16" font-size="9" fill="#a7f3d0" font-weight="black" text-anchor="middle">كتف وجسم باسم</text>
                         </g>
 
-                        <!-- THE FOOTBALL (الكرة) -->
+                        <!-- THE BALL -->
                         <g id="simBall" class="sim-actor" transform="translate(160, 140)">
                             <circle cx="0" cy="2" r="9" fill="#000000" opacity="0.35" />
                             <circle cx="0" cy="0" r="9" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
-                            <!-- Pentagon pattern -->
                             <polygon points="0,-4 4,-1 2,3 -2,3 -4,-1" fill="#0f172a" />
                             <circle id="ballTouchPoint" cx="0" cy="0" r="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="3 2" />
                         </g>
 
-                        <!-- Floating Action Callout Banner inside SVG -->
                         <g id="simCalloutBadge">
                             <rect x="10" y="198" width="300" height="19" rx="6" fill="#040d07" opacity="0.85" stroke="#184729" stroke-width="1" />
                             <text id="simSvgCalloutText" x="160" y="211" font-size="9.5" fill="#fbbf24" font-weight="bold" text-anchor="middle">
@@ -430,7 +622,6 @@
                     </svg>
                 </div>
 
-                <!-- Boot Strike Zone & Body Action Indicator Bar -->
                 <div class="mt-2.5 grid grid-cols-2 gap-2">
                     <div class="bg-pitch-800 border border-neon-gold/30 rounded-xl p-2 flex items-center gap-2">
                         <div class="w-8 h-8 rounded-lg bg-neon-gold/15 border border-neon-gold/40 flex items-center justify-center text-base flex-shrink-0">
@@ -452,7 +643,6 @@
                     </div>
                 </div>
 
-                <!-- Current Step Detailed Explanation Box -->
                 <div id="tacticalStepDescription" class="mt-2 p-2.5 bg-emerald-950/50 border border-emerald-500/40 rounded-xl text-xs text-white leading-relaxed font-semibold">
                 </div>
             </div>
@@ -473,7 +663,6 @@
                 <p id="modalSkillProTip" class="text-xs text-gray-300 leading-relaxed"></p>
             </div>
 
-            <!-- Ask Coach AI Button inside Skill -->
             <button onclick="askCoachAboutCurrentSkill()" class="w-full mb-3 bg-gradient-to-r from-emerald-900/70 to-pitch-800 hover:from-emerald-800 border border-neon-green/50 text-neon-green py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm">
                 <span>🤖</span> اسأل الكوتش جيميني كيف تطبقها بمبارياتك
             </button>
@@ -498,29 +687,33 @@
         <span id="toastMsg">تمت العملية بنجاح</span>
     </div>
 
-    <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-pitch-900/95 backdrop-blur-lg border-t border-pitch-line px-2 py-2">
-        <div class="max-w-md mx-auto grid grid-cols-4 gap-1 text-center">
-            <button onclick="switchTab('skills')" id="nav-skills" class="nav-btn active-nav flex flex-col items-center justify-center py-1.5 rounded-xl text-neon-green transition-all">
-                <span class="text-lg">⚡</span>
-                <span class="text-[10px] font-bold mt-0.5">المهارات</span>
+    <!-- Bottom Navigation Bar (Updated to 5 Tabs smoothly) -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-pitch-900/95 backdrop-blur-lg border-t border-pitch-line px-1.5 py-1.5">
+        <div class="max-w-md mx-auto grid grid-cols-5 gap-0.5 text-center">
+            <button onclick="switchTab('skills')" id="nav-skills" class="nav-btn active-nav flex flex-col items-center justify-center py-1 rounded-xl text-neon-green transition-all">
+                <span class="text-base">⚡</span>
+                <span class="text-[9px] font-bold mt-0.5">المهارات</span>
             </button>
-            <button onclick="switchTab('coach')" id="nav-coach" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
-                <span class="text-lg">🤖</span>
-                <span class="text-[10px] font-bold mt-0.5">كوتش باسم</span>
+            <button onclick="switchTab('nutrition')" id="nav-nutrition" class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
+                <span class="text-base">🥗</span>
+                <span class="text-[9px] font-bold mt-0.5">التغذية</span>
             </button>
-            <button onclick="switchTab('drills')" id="nav-drills" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
-                <span class="text-lg">⏱️</span>
-                <span class="text-[10px] font-bold mt-0.5">المؤقت والتمارين</span>
+            <button onclick="switchTab('coach')" id="nav-coach" class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
+                <span class="text-base">🤖</span>
+                <span class="text-[9px] font-bold mt-0.5">كوتش باسم</span>
             </button>
-            <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
-                <span class="text-lg">👤</span>
-                <span class="text-[10px] font-bold mt-0.5">بطاقة باسم</span>
+            <button onclick="switchTab('drills')" id="nav-drills" class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
+                <span class="text-base">⏱️</span>
+                <span class="text-[9px] font-bold mt-0.5">التمارين</span>
+            </button>
+            <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center justify-center py-1 rounded-xl text-gray-400 hover:text-gray-200 transition-all">
+                <span class="text-base">👤</span>
+                <span class="text-[9px] font-bold mt-0.5">بطاقتي</span>
             </button>
         </div>
     </nav>
 
-    <!-- JavaScript Application Logic & Choreographed Footwork Engine -->
+    <!-- JavaScript Application Logic -->
     <script>
         const SKILLS_DATA = [
             {
@@ -704,7 +897,7 @@
                 badgeColor: 'text-amber-400 border-amber-500/30 bg-amber-500/10',
                 desc: 'سحب الكرة بأسفل الحذاء الأيمن مع الالتفاف بظهرك لحمايتها من المدافع ثم سحبها بأسفل الحذاء الأيسر وإكمال الدوران.',
                 steps: [
-                    'عندمايندفع المدافع لقطع الكرة، ضع أسفل حذائك الأيمن (الدعسة) فوق الكرة واسحبها للخلف قليلاً.',
+                    'عندما يندفع المدافع لقطع الكرة، ضع أسفل حذائك الأيمن (الدعسة) فوق الكرة واسحبها للخلف قليلاً.',
                     'لف جسمك نصف دورة ليكون ظهرك في وجه المدافع تماماً (تحمي الكرة بجسمك).',
                     'اسحب الكرة بأسفل حذائك الأيسر (L) وأكمل الدوران 360 درجة لتنطلق خلف المدافع!'
                 ],
@@ -897,7 +1090,7 @@
                         rightFoot: { x: 175, y: 152, r: -10 },
                         body: { x: 160, y: 180, r: 0 },
                         ball: { x: 172, y: 142 },
-                        defender: { x: 110, y: 95, r: 0, label: '🛡️ الخصم لميلحقها' },
+                        defender: { x: 110, y: 95, r: 0, label: '🛡️ الخصم لم يلحقها' },
                         bootZone: 'باطن القدم يسحب للخلف لامتصاص القوة 🪶',
                         bodyMove: 'مرونة في الكاحل والركبة كالوسادة',
                         svgCallout: '2. اسحب قدمك اليمنى للخلف قليلاً لحظة لمس الكرة!',
@@ -1049,6 +1242,9 @@
 
         let masteredSkills = JSON.parse(localStorage.getItem('basem_mastered_skills') || '[]');
         let dailyDrills = JSON.parse(localStorage.getItem('basem_daily_drills')) || DEFAULT_DRILLS;
+        let checkedMeals = JSON.parse(localStorage.getItem('basem_checked_meals') || '[]');
+        let waterCups = parseInt(localStorage.getItem('basem_water_cups') || '0', 10);
+
         let currentModalSkill = null;
         let activeTacticalStep = 0;
         let animPlaybackInterval = null;
@@ -1098,10 +1294,35 @@
             renderSkills('all');
             renderDrills();
             updateStats();
+            renderNutritionState();
+            checkNewFeatureNotice();
         });
 
+        // ONE-TIME BANNER LOGIC
+        function checkNewFeatureNotice() {
+            const hasSeen = localStorage.getItem('basem_seen_nutrition_notice_v1');
+            if (!hasSeen) {
+                const banner = document.getElementById('newFeatureBanner');
+                if (banner) banner.classList.remove('hidden');
+            }
+        }
+
+        function dismissNewFeatureNotice(shouldNavigate) {
+            localStorage.setItem('basem_seen_nutrition_notice_v1', 'true');
+            const banner = document.getElementById('newFeatureBanner');
+            if (banner) {
+                banner.style.opacity = '0';
+                setTimeout(() => banner.classList.add('hidden'), 250);
+            }
+            if (shouldNavigate) {
+                switchTab('nutrition');
+                showToast('أهلاً بك في جدول تغذية الأبطال يا باسم! 🥗💪');
+            }
+        }
+
+        // TAB NAVIGATION
         function switchTab(tabId) {
-            ['skills', 'coach', 'drills', 'profile'].forEach(id => {
+            ['skills', 'nutrition', 'coach', 'drills', 'profile'].forEach(id => {
                 const el = document.getElementById(`tab-${id}`);
                 const btn = document.getElementById(`nav-${id}`);
                 if (id === tabId) {
@@ -1117,6 +1338,95 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // NUTRITION & MEAL TRACKING LOGIC
+        function renderNutritionState() {
+            // Render Meals Checkboxes
+            for (let i = 1; i <= 5; i++) {
+                const cb = document.getElementById(`meal-${i}`);
+                if (cb) {
+                    cb.checked = checkedMeals.includes(i);
+                }
+            }
+            updateMealsProgress();
+            renderWaterCups();
+        }
+
+        function toggleMealCheck(mealIndex) {
+            const idx = checkedMeals.indexOf(mealIndex);
+            if (idx > -1) {
+                checkedMeals.splice(idx, 1);
+            } else {
+                checkedMeals.push(mealIndex);
+                playBeep(880, 0.08);
+                showToast('صحة وهنا يا بطل! بنيت جزء من عضلاتك اليوم 💪');
+            }
+            localStorage.setItem('basem_checked_meals', JSON.stringify(checkedMeals));
+            updateMealsProgress();
+        }
+
+        function updateMealsProgress() {
+            const counter = document.getElementById('mealsProgressText');
+            if (counter) {
+                counter.innerText = `${checkedMeals.length} / 5 وجبات منجزة`;
+            }
+        }
+
+        // WATER CUPS TRACKER
+        function renderWaterCups() {
+            const container = document.getElementById('waterCupsContainer');
+            const badge = document.getElementById('waterCountBadge');
+            if (badge) badge.innerText = `${waterCups} / 8 كاسات`;
+
+            if (container) {
+                let html = '';
+                for (let i = 1; i <= 8; i++) {
+                    const filled = i <= waterCups;
+                    html += `
+                        <div class="flex-1 text-center">
+                            <div class="text-base transition-all transform ${filled ? 'scale-110' : 'opacity-30'}">
+                                ${filled ? '🥤' : '🥛'}
+                            </div>
+                            <div class="text-[8px] font-bold mt-0.5 ${filled ? 'text-neon-cyan' : 'text-gray-500'}">
+                                ${i}
+                            </div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            }
+        }
+
+        function addWaterCup() {
+            if (waterCups < 8) {
+                waterCups++;
+                playBeep(750, 0.06);
+                if (waterCups === 8) {
+                    playWhistle();
+                    showToast('برافو يا باسم! أنجزت كل كاسات الماء وعضلاتك محصنة تماماً 💧🏆');
+                } else {
+                    showToast(`ممتاز! شربت ${waterCups} كاسات ماء 💧`);
+                }
+            } else {
+                showToast('وصلت للهدف اليومي الكامل (8 كاسات) كفو! 👏');
+            }
+            localStorage.setItem('basem_water_cups', waterCups.toString());
+            renderWaterCups();
+        }
+
+        function resetWaterCups() {
+            waterCups = 0;
+            localStorage.setItem('basem_water_cups', '0');
+            renderWaterCups();
+            showToast('تمت إعادة ضبط عداد الماء');
+        }
+
+        function askCoachNutrition(promptText) {
+            switchTab('coach');
+            appendChatMessage('user', promptText);
+            queryCoachServer(promptText);
+        }
+
+        // CATEGORY FILTER
         function filterCategory(cat) {
             document.querySelectorAll('.cat-pill').forEach(btn => {
                 btn.classList.remove('bg-neon-green', 'text-pitch-900', 'shadow-md');
@@ -1199,7 +1509,6 @@
 
             document.getElementById('skillModal').classList.remove('hidden');
             updateTacticalDisplay();
-            // Auto start animation smoothly so Basem immediately sees the move in action!
             startAnimationPlayback();
         }
 
@@ -1265,13 +1574,11 @@
             }
         }
 
-        // CHOREOGRAPHED SMOOTH SVG ANIMATOR
         function updateTacticalDisplay() {
             if (!currentModalSkill) return;
             const step = activeTacticalStep;
             const frame = currentModalSkill.frames[step];
 
-            // Update Step Buttons
             [0, 1, 2].forEach(i => {
                 const btn = document.getElementById(`stepTab-${i}`);
                 if (i === step) {
@@ -1281,7 +1588,6 @@
                 }
             });
 
-            // Smoothly Transform Actors on the Pitch
             const leftFoot = document.getElementById('simLeftFoot');
             const rightFoot = document.getElementById('simRightFoot');
             const body = document.getElementById('simBasemBody');
@@ -1301,11 +1607,9 @@
             pathsLayer.innerHTML = frame.paths || '';
             svgCallout.textContent = frame.svgCallout;
 
-            // Update Boot Contact Zone & Body Action Cards
             document.getElementById('bootTouchZoneText').innerText = frame.bootZone;
             document.getElementById('bodyMovementText').innerText = frame.bodyMove;
 
-            // Update Detailed Step Description
             document.getElementById('tacticalStepDescription').innerHTML = `
                 <span class="text-neon-gold font-black ml-1">الخطوة ${step+1}:</span>
                 <span>${currentModalSkill.steps[step]}</span>
@@ -1503,7 +1807,7 @@
                     <span class="w-2 h-2 rounded-full bg-neon-green animate-bounce"></span>
                     <span class="w-2 h-2 rounded-full bg-neon-green animate-bounce" style="animation-delay: 0.2s"></span>
                     <span class="w-2 h-2 rounded-full bg-neon-green animate-bounce" style="animation-delay: 0.4s"></span>
-                    <span class="mr-2 text-[11px]">الكوتش يحلل التكتيك لباسم...</span>
+                    <span class="mr-2 text-[11px]">الكوتش يحلل التغذية والتكتيك لباسم...</span>
                 </div>
             `;
             container.appendChild(typingDiv);
